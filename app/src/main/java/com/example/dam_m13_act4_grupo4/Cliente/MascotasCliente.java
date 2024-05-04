@@ -1,4 +1,4 @@
-package com.example.dam_m13_act4_grupo4;
+package com.example.dam_m13_act4_grupo4.Cliente;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.dam_m13_act4_grupo4.Mascota;
+import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,7 +42,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class MascotasCliente extends AppCompatActivity {
 
     private RecyclerView recycler;
-    private ArrayList<Mascota> mascotas = new ArrayList<>();
+    private final ArrayList<Mascota> mascotas = new ArrayList<>();
     private AdaptadorMain adaptador;
     private ImageButton volver;
 
@@ -66,9 +69,9 @@ public class MascotasCliente extends AppCompatActivity {
         });
 
         new ObtenerMascotasTask().execute();
-        }
+    }
 
-    //Método que se encarga de convertir un String de un XML en un DOCUMENT
+    //Método que se encarga de convertir los String de un XML en un DOCUMENT
     public static Document convertirStringToXMLDocument(String xmlString) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
@@ -118,7 +121,7 @@ public class MascotasCliente extends AppCompatActivity {
                     int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
                     int idDueno = Integer.parseInt(element.getElementsByTagName("idDueno").item(0).getTextContent());
                     int idEspecie = Integer.parseInt(element.getElementsByTagName("idEspecie").item(0).getTextContent());
-                    int idRaza = Integer.parseInt(element.getElementsByTagName("idRaza").item(0).getTextContent());
+                    String raza = element.getElementsByTagName("raza").item(0).getTextContent();
                     String nombre = element.getElementsByTagName("nombre").item(0).getTextContent();
                     int idGenero = Integer.parseInt(element.getElementsByTagName("idGenero").item(0).getTextContent());
                     String microchip = element.getElementsByTagName("microchip").item(0).getTextContent();
@@ -130,7 +133,7 @@ public class MascotasCliente extends AppCompatActivity {
                     Date fechaNacimiento = dateFormat.parse(element.getElementsByTagName("fecha").item(0).getTextContent());
                     String fecha = dateFormat.format(fechaNacimiento);
                     //Creamos un objeto Mascota con los datos obtenidos
-                    Mascota m = new Mascota(id, idDueno, idEspecie, idRaza, nombre, idGenero, microchip, castrado, enfermedad, baja, peso, fecha);
+                    Mascota m = new Mascota(id, idDueno, idEspecie, raza, nombre, idGenero, microchip, castrado, enfermedad, baja, peso, fecha);
                     mascotasList.add(m);
                 }
 
@@ -168,11 +171,14 @@ public class MascotasCliente extends AppCompatActivity {
 
     //Clase que se encarga de crear el adaptador para la recycler con el objeto mascotas
     private class AdaptadorMain extends RecyclerView.Adapter<AdaptadorMain.ViewHolder> {
-        private ArrayList<Mascota> mascotas;
+        private final ArrayList<Mascota> mascotas;
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             //Creamos la variables con los elementos del layout de cada item
-            private TextView nombre, especie, peso, fechaNacimiento;
+            private final TextView nombre;
+            private final TextView especie;
+            private final TextView peso;
+            private final TextView fechaNacimiento;
 
             public ViewHolder(View view) {
                 super(view);
@@ -224,7 +230,7 @@ public class MascotasCliente extends AppCompatActivity {
                     Intent intent = new Intent(context, DatosMascotaCliente.class);
                     String nombre = mascota.getNombre();
                     int especie = mascota.getIdEspecie();
-                    int raza = mascota.getIdRaza();
+                    String raza = mascota.getRaza();
                     int genero = mascota.getidGenero();
                     Float peso = mascota.getPeso();
                     String fecha = mascota.getFechaNacimiento();

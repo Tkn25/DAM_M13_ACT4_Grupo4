@@ -3,16 +3,16 @@ package com.example.dam_m13_act4_grupo4;
 import java.util.Date;
 
 public class Mascota {
-    int id, idPropietario, idEspecie, idRaza, castrado, idGenero;
-    String nombre,  microchip, fechaNacimiento;
+    int id, idPropietario, idEspecie, castrado, idGenero;
+    String nombre,  microchip, fechaNacimiento, raza;
     boolean enfermedad, baja;
     float peso;
 
-    public Mascota(int id, int idPropietario, int idEspecie, int idRaza, String nombre, int idGenero, String microchip, int castrado, boolean enfermedad, boolean baja, float peso, String fechaNacimiento) {
+    public Mascota(int id, int idPropietario, int idEspecie, String raza, String nombre, int idGenero, String microchip, int castrado, boolean enfermedad, boolean baja, float peso, String fechaNacimiento) {
         this.id = id;
         this.idPropietario = idPropietario;
         this.idEspecie = idEspecie;
-        this.idRaza = idRaza;
+        this.raza = raza;
         this.nombre = nombre;
         this.idGenero = idGenero;
         this.microchip = microchip;
@@ -47,12 +47,12 @@ public class Mascota {
         this.idEspecie = idEspecie;
     }
 
-    public int getIdRaza() {
-        return idRaza;
+    public String getRaza() {
+        return raza;
     }
 
-    public void setIdRaza(int idRaza) {
-        this.idRaza = idRaza;
+    public void setIdRaza(String Raza) {
+        this.raza = raza;
     }
 
     public String getNombre() {

@@ -1,4 +1,4 @@
-package com.example.dam_m13_act4_grupo4;
+package com.example.dam_m13_act4_grupo4.Cliente;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,8 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.dam_m13_act4_grupo4.R;
 
 public class DatosMascotaCliente extends AppCompatActivity {
 
@@ -44,7 +43,7 @@ public class DatosMascotaCliente extends AppCompatActivity {
             String nombreMascota = intent.getStringExtra("nombre");
             int generoMascota = intent.getIntExtra("genero", 0);
             int especieMascota = intent.getIntExtra("especie", 0);
-            int razaMascota = intent.getIntExtra("raza", 0);
+            String razaMascota = intent.getStringExtra("raza");
             float pesoMascota = intent.getFloatExtra("peso", 0);
             int castradoMascota = intent.getIntExtra("castrado", 0);
             String fechaMascota = intent.getStringExtra("fecha");
@@ -70,6 +69,8 @@ public class DatosMascotaCliente extends AppCompatActivity {
         } else {
             especie.setText("Desconocido");
         }
+
+        raza.setText(razaMascota);
 
         peso.setText(String.valueOf(pesoMascota));
 

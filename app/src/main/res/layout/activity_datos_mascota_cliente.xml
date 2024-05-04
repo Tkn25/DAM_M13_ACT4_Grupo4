@@ -5,12 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DatosMascotaCliente">
+    tools:context=".Cliente.DatosMascotaCliente">
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="115dp"
-        android:layout_height="64dp"
+        android:layout_width="77dp"
+        android:layout_height="81dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,13 +22,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.11" />
+        app:layout_constraintGuide_percent="0.19" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lemonmilklight"
+        android:fontFamily="@font/lemonmilk"
         android:text="NOMBRE"
         app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
@@ -39,7 +39,7 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lemonmilklight"
+        android:fontFamily="@font/lemonmilk"
         android:text="GÉNERO"
         app:layout_constraintBottom_toTopOf="@+id/guideline16"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
@@ -50,7 +50,7 @@
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lemonmilklight"
+        android:fontFamily="@font/lemonmilk"
         android:text="ESPECIE"
         app:layout_constraintBottom_toTopOf="@+id/guideline17"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
@@ -61,7 +61,7 @@
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lemonmilklight"
+        android:fontFamily="@font/lemonmilk"
         android:text="RAZA"
         app:layout_constraintBottom_toTopOf="@+id/guideline18"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
@@ -72,7 +72,7 @@
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lemonmilklight"
+        android:fontFamily="@font/lemonmilk"
         android:text="PESO"
         app:layout_constraintBottom_toTopOf="@+id/guideline19"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
@@ -83,7 +83,7 @@
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lemonmilklight"
+        android:fontFamily="@font/lemonmilk"
         android:text="¿CASTRADO?"
         app:layout_constraintBottom_toTopOf="@+id/guideline20"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
@@ -94,8 +94,8 @@
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lemonmilklight"
-        android:text="FECHA DE NACIMIENTO:"
+        android:fontFamily="@font/lemonmilk"
+        android:text="FECHA DE NACIMIENTO"
         app:layout_constraintBottom_toTopOf="@+id/guideline21"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,9 +105,9 @@
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lemonmilklight"
+        android:fontFamily="@font/lemonmilk"
         android:text="Nº DE MICROCHIP"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline23"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline21" />
@@ -117,49 +117,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.222" />
+        app:layout_constraintGuide_percent="0.28" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.333" />
+        app:layout_constraintGuide_percent="0.37" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.444" />
+        app:layout_constraintGuide_percent="0.46" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.555" />
+        app:layout_constraintGuide_percent="0.55" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.666" />
+        app:layout_constraintGuide_percent="0.64" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.777" />
+        app:layout_constraintGuide_percent="0.73" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.888" />
+        app:layout_constraintGuide_percent="0.82" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline22"
@@ -172,6 +172,7 @@
         android:id="@+id/textViewNombreMCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonmilklight"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toEndOf="parent"
@@ -182,6 +183,7 @@
         android:id="@+id/textViewGeneroMCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonmilklight"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/guideline16"
         app:layout_constraintEnd_toEndOf="parent"
@@ -192,6 +194,7 @@
         android:id="@+id/textViewEspecieMCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonmilklight"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/guideline17"
         app:layout_constraintEnd_toEndOf="parent"
@@ -202,6 +205,7 @@
         android:id="@+id/textViewRazaMCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonmilklight"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/guideline18"
         app:layout_constraintEnd_toEndOf="parent"
@@ -212,6 +216,7 @@
         android:id="@+id/textViewPesoMCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonmilklight"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/guideline19"
         app:layout_constraintEnd_toEndOf="parent"
@@ -222,6 +227,7 @@
         android:id="@+id/textViewCastradoMCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonmilklight"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/guideline20"
         app:layout_constraintEnd_toEndOf="parent"
@@ -232,6 +238,7 @@
         android:id="@+id/textViewFechaMCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonmilklight"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/guideline21"
         app:layout_constraintEnd_toEndOf="parent"
@@ -242,8 +249,9 @@
         android:id="@+id/textViewMicrochipMCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonmilklight"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline23"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline22"
         app:layout_constraintTop_toTopOf="@+id/guideline21" />
@@ -256,10 +264,17 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toStartOf="@+id/guideline22"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.432"
+        app:layout_constraintVertical_bias="0.292"
         app:srcCompat="@drawable/back" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9056088" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
