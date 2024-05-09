@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DAM_M13_ACT4_Grupo4</string>
+    <string-array name="opciones_filtro">
+        <item>Nombre</item>
+        <item>DNI</item>
+    </string-array>
 </resources>
