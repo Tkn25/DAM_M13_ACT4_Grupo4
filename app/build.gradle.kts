@@ -37,4 +37,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("com.github.VishnuSivadasVS:Advanced-HttpURLConnection:1.2")
 }
