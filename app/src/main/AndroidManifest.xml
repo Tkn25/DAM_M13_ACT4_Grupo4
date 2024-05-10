@@ -16,6 +16,24 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31" >
         <activity
+            android:name=".Veterinario.PrincipalVeterinario"
+            android:exported="false" />
+        <activity
+            android:name=".Login.LoginSeleccion"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Login.LoginVeterinario"
+            android:exported="false" />
+        <activity
+            android:name=".Login.LoginCliente"
+            android:exported="false" />
+        <activity
             android:name=".Veterinario.ConsejosVeterinario"
             android:exported="false" />
         <activity
@@ -44,13 +62,7 @@
             android:exported="false" />
         <activity
             android:name=".Cliente.PrincipalCliente"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
