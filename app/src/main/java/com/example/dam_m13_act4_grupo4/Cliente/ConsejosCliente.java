@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +33,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import POJO.Consejo;
-import POJO.Global;
+import com.example.dam_m13_act4_grupo4.POJO.Consejo;
+import com.example.dam_m13_act4_grupo4.POJO.Global;
 
 public class ConsejosCliente extends AppCompatActivity {
 

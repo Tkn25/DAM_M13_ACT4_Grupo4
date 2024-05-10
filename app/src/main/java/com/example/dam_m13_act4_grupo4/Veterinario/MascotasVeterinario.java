@@ -31,23 +31,18 @@ import com.example.dam_m13_act4_grupo4.R;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import POJO.Global;
-import POJO.Mascota;
+import com.example.dam_m13_act4_grupo4.POJO.Global;
+import com.example.dam_m13_act4_grupo4.POJO.Mascota;
 
 public class MascotasVeterinario extends AppCompatActivity {
     private RecyclerView recycler;

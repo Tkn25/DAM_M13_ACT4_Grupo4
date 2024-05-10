@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import POJO.Cita;
-import POJO.Global;
-import POJO.Mascota;
+import com.example.dam_m13_act4_grupo4.POJO.Cita;
+import com.example.dam_m13_act4_grupo4.POJO.Global;
+import com.example.dam_m13_act4_grupo4.POJO.Mascota;
 import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
