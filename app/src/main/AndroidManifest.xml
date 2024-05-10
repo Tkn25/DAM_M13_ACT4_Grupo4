@@ -62,7 +62,7 @@
             android:exported="false" />
         <activity
             android:name=".Cliente.PrincipalCliente"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>

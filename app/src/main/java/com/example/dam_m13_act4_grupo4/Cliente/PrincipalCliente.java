@@ -23,6 +23,12 @@ public class PrincipalCliente extends AppCompatActivity {
         citas = findViewById(R.id.imageButton3);
         consejos = findViewById(R.id.imageButton4);
         protectoras = findViewById(R.id.imageButton5);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("user");
+        }
+
         mascotas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,4 +1,4 @@
-package com.example.dam_m13_act4_grupo4;
+package POJO;
 
 import java.util.Date;
 

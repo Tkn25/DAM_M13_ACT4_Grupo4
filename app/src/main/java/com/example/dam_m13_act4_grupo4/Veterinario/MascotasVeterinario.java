@@ -26,8 +26,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dam_m13_act4_grupo4.Cliente.DatosMascotaCliente;
-import com.example.dam_m13_act4_grupo4.Cliente.MascotasCliente;
-import com.example.dam_m13_act4_grupo4.Mascota;
 import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
@@ -47,6 +45,9 @@ import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import POJO.Global;
+import POJO.Mascota;
 
 public class MascotasVeterinario extends AppCompatActivity {
     private RecyclerView recycler;
@@ -81,18 +82,6 @@ public class MascotasVeterinario extends AppCompatActivity {
         });
     }
 
-    public static Document convertirStringToXMLDocument(String xmlString) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        try {
-            builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
-            return doc;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     private class ObtenerMascotasTask extends AsyncTask<Void, Void, ArrayList<Mascota>> {
         ArrayList<Mascota> mascotasList = new ArrayList<>();
 
@@ -116,7 +105,7 @@ public class MascotasVeterinario extends AppCompatActivity {
                 }
 
 
-                Document document = convertirStringToXMLDocument(respuesta.toString());
+                Document document = Global.convertirStringToXMLDocument(respuesta.toString());
 
                 NodeList listaMascotas = document.getElementsByTagName("mascota");
 

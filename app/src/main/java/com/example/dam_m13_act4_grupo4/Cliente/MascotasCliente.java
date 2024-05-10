@@ -18,26 +18,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dam_m13_act4_grupo4.Mascota;
+import POJO.Global;
+import POJO.Mascota;
 import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MascotasCliente extends AppCompatActivity {
 
@@ -71,20 +67,6 @@ public class MascotasCliente extends AppCompatActivity {
         new ObtenerMascotasTask().execute();
     }
 
-    //Método que se encarga de convertir los String de un XML en un DOCUMENT
-    public static Document convertirStringToXMLDocument(String xmlString) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        try {
-            builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
-            return doc;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     private class ObtenerMascotasTask extends AsyncTask<Void, Void, ArrayList<Mascota>> {
         //Creamos el array donde almacenaremos todos los datos de las mascotas
         ArrayList<Mascota> mascotasList = new ArrayList<>();
@@ -112,7 +94,7 @@ public class MascotasCliente extends AppCompatActivity {
                 }
 
                 //Convertimos los datos recibidos en un Document
-                Document document = convertirStringToXMLDocument(respuesta.toString());
+                Document document = Global.convertirStringToXMLDocument(respuesta.toString());
                 //Obtenemos los elementos de cada mascota
                 NodeList listaMascotas = document.getElementsByTagName("mascota");
                 //Con este bucle conseguimos los datos de cada mascota
