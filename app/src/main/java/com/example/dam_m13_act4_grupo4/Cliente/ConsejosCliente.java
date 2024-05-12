@@ -38,6 +38,7 @@ import com.example.dam_m13_act4_grupo4.POJO.Global;
 
 public class ConsejosCliente extends AppCompatActivity {
 
+    //Creamos las variables globales de la clase
     private ImageButton volver;
     private RecyclerView lista;
     private final ArrayList<Consejo> consejos = new ArrayList<>();
@@ -48,6 +49,7 @@ public class ConsejosCliente extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_consejos_cliente);
 
+        //Asociamos las variables con sus elementos del layout
         volver = findViewById(R.id.imageButton7);
         lista = findViewById(R.id.listaConsejos);
 
@@ -63,17 +65,19 @@ public class ConsejosCliente extends AppCompatActivity {
                 finish();
             }
         });
+        //Obtenemos los consejos
         new ObtenerConsejosTask().execute();
     }
 
+    //Clase encargada de obtener los datos de los cobsejos en la BBDD a través de un .php
     private class ObtenerConsejosTask extends AsyncTask<Void, Void, ArrayList<Consejo>> {
-        //Creamos el array donde almacenaremos todos los datos de las mascotas
+        //Creamos el array donde almacenaremos todos los datos de los consejos
         ArrayList<Consejo> consejosList = new ArrayList<>();
 
         @Override
         protected ArrayList<Consejo> doInBackground(Void... voids) {
             //Ponemos la dirección del .php
-            String url = "http://192.168.1.143/consejosCliente.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.0.14/controlpaw/consejosLista.php"; //Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión
@@ -95,29 +99,26 @@ public class ConsejosCliente extends AppCompatActivity {
                 //Convertimos los datos recibidos en un Document
                 Document document = Global.convertirStringToXMLDocument(respuesta.toString());
 
-                //Obtenemos los elementos de cada mascota
+                //Obtenemos los elementos de cada consejo
                 NodeList listaConsultas = document.getElementsByTagName("consejo");
-                //Con este bucle conseguimos los datos de cada mascota
+                //Con este bucle conseguimos los datos de cada consejo
                 for (int i = 0; i < listaConsultas.getLength(); i++) {
                     Element element = (Element) listaConsultas.item(i);
                     int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
                     String titulo = element.getElementsByTagName("titulo").item(0).getTextContent();
                     String descripcion = element.getElementsByTagName("descripcion").item(0).getTextContent();
                     String imagen = element.getElementsByTagName("img").item(0).getTextContent();
-                    //Creamos un objeto Mascota con los datos obtenidos
+
+                    //Creamos un objeto Consejo con los datos obtenidos
                     Consejo c = new Consejo(id, titulo, descripcion, imagen);
                     consejosList.add(c);
                 }
-
                 //Cerramos la conexión
                 entrada.close();
                 conexion.disconnect();
-
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
-
             return consejosList;
         }
 
@@ -126,22 +127,22 @@ public class ConsejosCliente extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Consejo> consejosList) {
             super.onPostExecute(consejosList);
 
-            //Actualizamos la interfaz
+            //Comprobamos que la lista no este vacía
             if (consejosList != null && !consejosList.isEmpty()) {
-                //Limpiamos la lista actual
+                //Limpiamos la lista actual para evitar errores
                 consejos.clear();
-                //Agregamos las nuevas mascotas a la lista
+                //Agregamos los consejos encontrados a la lista de consejos
                 consejos.addAll(consejosList);
-                //Notificamos al adaptador los cambios
+                //Notificamos los cambios al adaptador
                 adaptador.notifyDataSetChanged();
             } else {
-                //Si hay algún error mostramos un mensaje por pantalla
+                //Si hay algun error mostramos un mensaje
                 Toast.makeText(getApplicationContext(), "No se ha podido establecer la conexión. Por favor, inténtelo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    //Clase que se encarga de crear el adaptador para la recycler con el objeto mascotas
+    //Clase que se encarga de crear el adaptador para la recycler con el objeto consejos
     private class AdaptadorConsejos extends RecyclerView.Adapter<AdaptadorConsejos.ViewHolder> {
         private final ArrayList<Consejo> consejos;
 
@@ -173,7 +174,7 @@ public class ConsejosCliente extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull AdaptadorConsejos.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-            //Asignamos el texto con el valor de las mascotas a los campos
+            //Asignamos el texto con el valor de los consejos a los campos
             Consejo consejo = consejos.get(position);
             holder.titulo.setText(consejo.getTitulo());
             holder.descripcion.setText(consejo.getDescripcion());
@@ -186,6 +187,7 @@ public class ConsejosCliente extends AppCompatActivity {
         }
     }
 
+    //Clase encargada de convertir un enlace en un Bitmap para utilizarlo en un ImageView
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
 

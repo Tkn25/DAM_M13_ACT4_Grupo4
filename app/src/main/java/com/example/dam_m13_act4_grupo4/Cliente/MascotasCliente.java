@@ -37,10 +37,12 @@ import java.util.Date;
 
 public class MascotasCliente extends AppCompatActivity {
 
+    //Creamos las variables globales de la clase
     private RecyclerView recycler;
     private final ArrayList<Mascota> mascotas = new ArrayList<>();
     private AdaptadorMain adaptador;
     private ImageButton volver;
+    private static String idDueno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class MascotasCliente extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_mascotas_cliente);
 
+        //Asociamos las variables con sus elementos del layout
         volver = findViewById(R.id.imageButtonVolver);
         recycler = findViewById(R.id.recycler);
         //Creamos un objeto de tipo adaptador y lo asignamos a la recycler
@@ -55,6 +58,13 @@ public class MascotasCliente extends AppCompatActivity {
         recycler.setAdapter(adaptador);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
+        //Obtenemos la ID del usuario cliente
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            idDueno = extras.getString("user");
+        }
+
+        //En caso de pulsar el botón volver, se volverá a la actividad anterior.
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,17 +74,18 @@ public class MascotasCliente extends AppCompatActivity {
             }
         });
 
-        new ObtenerMascotasTask().execute();
+        //Obtenemos las mascotas según el cliente
+        new ObtenerMascotasTask().execute(idDueno);
     }
 
-    private class ObtenerMascotasTask extends AsyncTask<Void, Void, ArrayList<Mascota>> {
+    private class ObtenerMascotasTask extends AsyncTask<String, Void, ArrayList<Mascota>> {
         //Creamos el array donde almacenaremos todos los datos de las mascotas
         ArrayList<Mascota> mascotasList = new ArrayList<>();
 
         @Override
-        protected ArrayList<Mascota> doInBackground(Void... voids) {
+        protected ArrayList<Mascota> doInBackground(String... dueno) {
             //Ponemos la dirección del .php
-            String url = "http://192.168.1.143/mascotasCliente.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.0.14/controlpaw/mascotasCliente.php"; //Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión
@@ -82,6 +93,10 @@ public class MascotasCliente extends AppCompatActivity {
                 HttpURLConnection conexion = (HttpURLConnection) direccion.openConnection();
                 conexion.setRequestMethod("POST");
                 conexion.setDoOutput(true);
+
+                //Enviamos la id del dueño como parámetro
+                String parametros = "dueno=" + dueno[0];
+                conexion.getOutputStream().write(parametros.getBytes());
 
                 //Leemos la respuesta de la BD hasta que no haya mas lineas para leer.
                 InputStream entrada = conexion.getInputStream();
@@ -101,7 +116,7 @@ public class MascotasCliente extends AppCompatActivity {
                 for (int i = 0; i < listaMascotas.getLength(); i++) {
                     Element element = (Element) listaMascotas.item(i);
                     int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
-                    int idDueno = Integer.parseInt(element.getElementsByTagName("idDueno").item(0).getTextContent());
+                    int idPropietario = Integer.parseInt(element.getElementsByTagName("idDueno").item(0).getTextContent());
                     int idEspecie = Integer.parseInt(element.getElementsByTagName("idEspecie").item(0).getTextContent());
                     String raza = element.getElementsByTagName("raza").item(0).getTextContent();
                     String nombre = element.getElementsByTagName("nombre").item(0).getTextContent();
@@ -115,19 +130,15 @@ public class MascotasCliente extends AppCompatActivity {
                     Date fechaNacimiento = dateFormat.parse(element.getElementsByTagName("fecha").item(0).getTextContent());
                     String fecha = dateFormat.format(fechaNacimiento);
                     //Creamos un objeto Mascota con los datos obtenidos
-                    Mascota m = new Mascota(id, idDueno, idEspecie, raza, nombre, idGenero, microchip, castrado, enfermedad, baja, peso, fecha);
+                    Mascota m = new Mascota(id, idPropietario, idEspecie, raza, nombre, idGenero, microchip, castrado, enfermedad, baja, peso, fecha);
                     mascotasList.add(m);
                 }
-
                 //Cerramos la conexión
                 entrada.close();
                 conexion.disconnect();
-
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
-
             return mascotasList;
         }
 
@@ -135,17 +146,16 @@ public class MascotasCliente extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Mascota> mascotasList) {
             super.onPostExecute(mascotasList);
-
-            //Actualizamos la interfaz
+            //Comprobamos que la lista no está vacia
             if (mascotasList != null && !mascotasList.isEmpty()) {
-                //Limpiamos la lista actual
+                //Limpiamos la lista actual para evitar errores
                 mascotas.clear();
-                //Agregamos las nuevas mascotas a la lista
+                //Agregamos las mascotas encontradas a la lista de mascotas
                 mascotas.addAll(mascotasList);
-                //Notificamos al adaptador los cambios
+                //Notificamos los cambios al adaptador
                 adaptador.notifyDataSetChanged();
             } else {
-                //Si hay algún error mostramos un mensaje por pantalla
+                //Si hay algun error mostramos un mensaje
                 Toast.makeText(getApplicationContext(), "No se ha podido establecer la conexión. Por favor, inténtelo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
             }
         }
@@ -226,9 +236,8 @@ public class MascotasCliente extends AppCompatActivity {
                     intent.putExtra("peso", peso);
                     intent.putExtra("fecha", fecha);
                     intent.putExtra("microchip", microchip);
-                    //Iniciamos la siguiente actividad y cerramos la actual
+                    //Iniciamos la siguiente actividad
                     startActivity(intent);
-                    finish();
                 }
             });
         }
