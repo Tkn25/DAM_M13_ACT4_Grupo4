@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -22,8 +23,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class LoginVeterinario extends AppCompatActivity {
 
-    TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
-    Button buttonLogin;
+    private TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
+    private Button buttonLogin;
+    private ImageButton goBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class LoginVeterinario extends AppCompatActivity {
         textInputEditTextUsername = findViewById(R.id.username);
         textInputEditTextPassword = findViewById(R.id.password);
         buttonLogin = findViewById(R.id.login_btn);
+        goBack = findViewById(R.id.imageButton14);
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +89,14 @@ public class LoginVeterinario extends AppCompatActivity {
             }
         });
 
-
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginVeterinario.this, LoginSeleccion.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
     private String hashPassword(String password) {
         try {
