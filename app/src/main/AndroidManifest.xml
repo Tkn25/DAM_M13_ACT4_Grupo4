@@ -72,6 +72,12 @@
         <activity
             android:name=".Veterinario.SaludVeterinario"
             android:exported="false" />
+        <activity
+            android:name=".Veterinario.CitasVeterinario"
+            android:exported="false" />
+        <activity
+            android:name=".Veterinario.RegistrarVeterinario"
+            android:exported="false" />
     </application>
 
 </manifest>
