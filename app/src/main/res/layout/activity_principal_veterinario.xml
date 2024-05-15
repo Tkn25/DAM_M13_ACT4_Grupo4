@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".Veterinario.PrincipalVeterinario">
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lemonmilklight"
+        android:text="Ver clientes"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="183dp"
@@ -162,12 +173,12 @@
         android:id="@+id/imageButton4"
         android:layout_width="60dp"
         android:layout_height="67dp"
-        android:contentDescription="Acceder a sección de consejos"
         android:background="@android:color/transparent"
+        android:contentDescription="Acceder a sección de consejos"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:srcCompat="@drawable/book" />
 
@@ -185,8 +196,8 @@
         android:fontFamily="@font/lemonmilklight"
         android:text="Consejos"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -208,13 +219,28 @@
         android:layout_width="60dp"
         android:layout_height="67dp"
         android:background="@android:color/transparent"
-        android:scaleType="fitXY"
         android:contentDescription="Acceder a sección de protectoras"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toStartOf="@+id/guideline11"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.42"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:srcCompat="@drawable/ic_adduser" />
+
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="60dp"
+        android:layout_height="67dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Acceder a sección de protectoras"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:srcCompat="@drawable/ic_userlist" />
 
     <TextView
         android:id="@+id/textView6"
@@ -223,8 +249,8 @@
         android:fontFamily="@font/lemonmilklight"
         android:text="Añadir usuario"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toStartOf="@+id/guideline11"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <TextView

@@ -38,7 +38,7 @@ public class PrincipalVeterinario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrincipalVeterinario.this, MascotasVeterinario.class);
-                intent.putExtra("user", idVet);
+                intent.putExtra("idEmpleado", idVet);
                 startActivity(intent);
                 finish();
             }
@@ -50,7 +50,7 @@ public class PrincipalVeterinario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrincipalVeterinario.this, SaludVeterinario.class);
-                intent.putExtra("user", idVet);
+                intent.putExtra("idEmpleado", idVet);
                 startActivity(intent);
                 finish();
             }
@@ -62,7 +62,7 @@ public class PrincipalVeterinario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrincipalVeterinario.this, CitasVeterinario.class);
-                intent.putExtra("user", idVet);
+                intent.putExtra("idEmpleado", idVet);
                 startActivity(intent);
                 finish();
             }
@@ -74,6 +74,7 @@ public class PrincipalVeterinario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrincipalVeterinario.this, ConsejosVeterinario.class);
+                intent.putExtra("idEmpleado", idVet);
                 startActivity(intent);
                 finish();
             }
@@ -85,6 +86,19 @@ public class PrincipalVeterinario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrincipalVeterinario.this, RegistrarVeterinario.class);
+                intent.putExtra("idEmpleado", idVet);
+                startActivity(intent);
+                finish();
+            }
+        });
+        //endregion
+
+        //region Listener del botón para acceder a la sección de la lista de clientes
+        registrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrincipalVeterinario.this, UserlistVeterinario.class);
+                intent.putExtra("idEmpleado", idVet);
                 startActivity(intent);
                 finish();
             }
