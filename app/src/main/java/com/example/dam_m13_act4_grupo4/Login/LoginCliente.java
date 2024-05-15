@@ -99,7 +99,7 @@ public class LoginCliente extends AppCompatActivity {
                                                     {
                                                         final NodeList idNode = document.getElementsByTagName("idCliente");
                                                         final String idCliente = idNode.item(0).getTextContent();
-                                                        Toast.makeText(getApplicationContext(), idCliente, Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                                                         Intent intent = new Intent(LoginCliente.this, PrincipalCliente.class);
                                                         intent.putExtra("idCliente", idCliente);
                                                         startActivity(intent);
