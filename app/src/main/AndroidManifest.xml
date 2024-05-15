@@ -69,6 +69,9 @@
         <activity
             android:name=".Cliente.PrincipalCliente"
             android:exported="false" />
+        <activity
+            android:name=".Veterinario.SaludVeterinario"
+            android:exported="false" />
     </application>
 
 </manifest>
