@@ -23,6 +23,10 @@ public class Mascota {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public Mascota(String nombre){
+        this.nombre = nombre;
+    }
+
     public int getId() {
         return id;
     }
