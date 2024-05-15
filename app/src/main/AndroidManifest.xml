@@ -78,9 +78,12 @@
         <activity
             android:name=".Veterinario.RegistrarVeterinario"
             android:exported="false" />
-
         <activity
             android:name=".Veterinario.UserlistVeterinario"
+            android:exported="false" />
+
+        <activity
+            android:name=".Veterinario.InsertarCitaVeterinario"
             android:exported="false" />
     </application>
 
