@@ -29,6 +29,7 @@
         android:layout_width="44dp"
         android:layout_height="43dp"
         android:background="@android:color/transparent"
+        android:contentDescription="Volver a selección de lgin"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/imageView"

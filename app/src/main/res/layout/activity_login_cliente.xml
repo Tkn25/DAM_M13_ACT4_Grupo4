@@ -30,6 +30,7 @@
         android:layout_height="43dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
+        android:contentDescription="Volver a selección de login"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintHorizontal_bias="0.21"

@@ -30,6 +30,8 @@ public class LoginSeleccion extends AppCompatActivity {
         });
         cliente = findViewById(R.id.imageButton);
         veterinario = findViewById(R.id.imageButton2);
+
+        //region Listeners de botones de login
         cliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,5 +48,6 @@ public class LoginSeleccion extends AppCompatActivity {
                 finish();
             }
         });
+        //endregion
     }
 }

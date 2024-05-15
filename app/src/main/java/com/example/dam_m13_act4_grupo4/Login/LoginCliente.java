@@ -22,7 +22,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class LoginCliente extends AppCompatActivity {
-
     private TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
     private Button buttonLogin;
     private ImageButton goBack;
@@ -37,44 +36,63 @@ public class LoginCliente extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         textInputEditTextUsername = findViewById(R.id.username);
         textInputEditTextPassword = findViewById(R.id.password);
         buttonLogin = findViewById(R.id.login_btn);
         goBack = findViewById(R.id.imageButton14);
-
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String username = textInputEditTextUsername.getText().toString();
                 final String password = hashPassword(textInputEditTextPassword.getText().toString());
 
-                if (!username.isEmpty() && !password.isEmpty()) {
+                if (!username.isEmpty() && !password.isEmpty())
+                //region Si hay texto en los inputs
+                {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             String[] campo = {"username", "password"};
                             String[] datos = {username, password};
                             PutData putData = new PutData("http://192.168.0.14/ControlPaw/loginCliente.php", "POST", campo, datos);
-                            if (putData.startPut()) {
-                                if (putData.onComplete()) {
+                            if (putData.startPut())
+                            //region Si logramos acceder al PHP
+                            {
+                                if (putData.onComplete())
+                                //region Al terminar de ejecutarse el PHP
+                                {
                                     final String result = putData.getResult();
                                     runOnUiThread(new Runnable() {
+                                        //region Comprobación de login
                                         @Override
                                         public void run() {
-                                            if (result.equals("Login Correcto")) {
+                                            if (result.equals("Login Correcto"))
+                                            //region Si el PHP verifica la existencia del usuario y contraseña
+                                            {
                                                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(LoginCliente.this, PrincipalCliente.class);
                                                 intent.putExtra("user", datos[0]);
                                                 startActivity(intent);
                                                 finish();
-                                            } else {
+                                            }
+                                            //endregion
+                                            else
+                                            //region Si las credenciales son incorrectas
+                                            {
                                                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                                             }
+                                            //endregion
                                         }
+                                        //endregion
                                     });
                                 }
-                            } else {
+                                //endregion
+                            }
+                            //endregion
+                            else
+                            //region En caso de no poder acceder al PHP
+                            {
+
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -82,14 +100,21 @@ public class LoginCliente extends AppCompatActivity {
                                     }
                                 });
                             }
+                            //endregion
                         }
                     }).start();
-                } else {
+                }
+                //endregion
+                else
+                //region Si no hay texto en los inputs
+                {
                     Toast.makeText(getApplicationContext(), "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
                 }
+                //endregion
             }
         });
 
+        //region Listener de botón para volver a selección de login
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,9 +123,11 @@ public class LoginCliente extends AppCompatActivity {
                 finish();
             }
         });
+        //endregion
 
 
     }
+    //region Función para hashear contraseña
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -117,4 +144,5 @@ public class LoginCliente extends AppCompatActivity {
             return null;
         }
     }
+    //endregion
 }
