@@ -11,8 +11,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.dam_m13_act4_grupo4.Cliente.MascotasCliente;
-import com.example.dam_m13_act4_grupo4.Cliente.PrincipalCliente;
 import com.example.dam_m13_act4_grupo4.R;
 
 public class LoginSeleccion extends AppCompatActivity {

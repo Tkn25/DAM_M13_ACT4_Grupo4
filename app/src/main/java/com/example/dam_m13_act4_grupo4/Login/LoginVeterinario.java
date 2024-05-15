@@ -13,13 +13,22 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.dam_m13_act4_grupo4.Cliente.PrincipalCliente;
 import com.example.dam_m13_act4_grupo4.R;
 import com.example.dam_m13_act4_grupo4.Veterinario.PrincipalVeterinario;
 import com.google.android.material.textfield.TextInputEditText;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import java.io.StringReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class LoginVeterinario extends AppCompatActivity {
 
@@ -68,22 +77,53 @@ public class LoginVeterinario extends AppCompatActivity {
                                         //region Comprobación de login
                                         @Override
                                         public void run() {
-                                            if (result.equals("Login Correcto"))
-                                            //region Si el PHP verifica la existencia del usuario y contraseña
+                                            if (result.startsWith("<?xml"))
+                                            //region Si recibimos el XML correctamente
                                             {
-                                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(LoginVeterinario.this, PrincipalVeterinario.class);
-                                                intent.putExtra("user", datos[0]);
-                                                startActivity(intent);
-                                                finish();
+                                                try
+                                                {
+                                                    //region Parseamos el XML
+                                                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                                                    DocumentBuilder builder = factory.newDocumentBuilder();
+                                                    InputSource is = new InputSource(new StringReader(result));
+                                                    Document document = builder.parse(is);
+                                                    //endregion
+
+                                                    //region Extraemos los datos del XML
+
+                                                    final NodeList msgNode = document.getElementsByTagName("msg");
+                                                    final NodeList checkNode = document.getElementsByTagName("success");
+                                                    final String check = checkNode.item(0).getTextContent();
+                                                    final String msg = msgNode.item(0).getTextContent();
+
+                                                    //endregion
+                                                    if (check.equals("true"))
+                                                    //region En caso de haber recibido una ID: Login correcto
+                                                    {
+                                                        final NodeList idNode = document.getElementsByTagName("idEmpleado");
+                                                        final String idEmpleado = idNode.item(0).getTextContent();
+                                                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(LoginVeterinario.this, PrincipalVeterinario.class);
+                                                        intent.putExtra("idEmpleado", idEmpleado);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                    //endregion
+                                                    else
+                                                    //region En caso de no haber recibido una ID: Credenciales incorrectas
+                                                    {
+                                                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    //endregion
+                                                }
+                                                catch (Exception e)
+                                                //region En caso de respuesta no XML (Esto no es relevante, a no ser que modifiquemos los PHP en el futuro)
+                                                {
+                                                    e.printStackTrace();
+                                                    Toast.makeText(getApplicationContext(), "Error en el formato de respuesta XML", Toast.LENGTH_SHORT).show();
+                                                }
+                                                //endregion
                                             }
-                                            //endregion
-                                            else
-                                            //region Si las credenciales son incorrectas
-                                            {
-                                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                            }
-                                            //endregion
                                         }
                                         //endregion
                                     });
