@@ -26,7 +26,6 @@ import com.example.dam_m13_act4_grupo4.Cliente.DatosMascotaCliente;
 import com.example.dam_m13_act4_grupo4.Cliente.MascotasCliente;
 import com.example.dam_m13_act4_grupo4.Cliente.PrincipalCliente;
 import com.example.dam_m13_act4_grupo4.Dueno;
-import com.example.dam_m13_act4_grupo4.Mascota;
 import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
