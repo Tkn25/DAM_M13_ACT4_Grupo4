@@ -20,15 +20,18 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dam_m13_act4_grupo4.Cliente.DatosMascotaCliente;
-import com.example.dam_m13_act4_grupo4.Cliente.MascotasCliente;
+
+import com.example.dam_m13_act4_grupo4.Cliente.PrincipalCliente;
 import com.example.dam_m13_act4_grupo4.Mascota;
 import com.example.dam_m13_act4_grupo4.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -51,8 +54,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class MascotasVeterinario extends AppCompatActivity {
     private RecyclerView recycler;
     private final ArrayList<Mascota> mascotas = new ArrayList<>();
+
     private AdaptadorMain adaptador;
     private ImageButton volver;
+    private Spinner spinnerFiltro;
+    private SearchView searchView;
+
+    private int size;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,20 +72,63 @@ public class MascotasVeterinario extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Spinner spinnerFiltro = findViewById(R.id.spinnerFiltro);
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Acción a realizar cuando se hace clic en el botón flotante
+                añadir();
+            }
+        });
+        volver = findViewById(R.id.imageButton6);
+        volver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MascotasVeterinario.this, PrincipalCliente.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        recycler = findViewById(R.id.recycler); // Inicializar RecyclerView
+        recycler.setLayoutManager(new LinearLayoutManager(this)); // Establec
+        // Instancia y ejecuta la tarea asíncrona para obtener las mascotas
+        ObtenerMascotasTask obtenerMascotasTask = new ObtenerMascotasTask();
+        obtenerMascotasTask.execute();
+        // Inicializar SearchView y Spinner
+        searchView = findViewById(R.id.searchView);
+        spinnerFiltro = findViewById(R.id.spinnerFiltro);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.opciones_filtro, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFiltro.setAdapter(adapter);
         spinnerFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                String opcionSeleccionada = adapterView.getItemAtPosition(position).toString();
-                // Cambiar criterio de filtrado
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String criterio = adapterView.getItemAtPosition(i).toString();
+                if (adaptador != null) {
+                    adaptador.setCriterioFiltro(criterio);
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                // No se utiliza
+            }
+        });
+        // Configurar escucha del SearchView
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // No se utiliza
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Aplicar el filtro cada vez que cambia el texto del SearchView
+                adaptador.getFilter().filter(newText);
+                adaptador.notifyDataSetChanged();
+                return false;
             }
         });
     }
@@ -98,7 +150,7 @@ public class MascotasVeterinario extends AppCompatActivity {
 
         @Override
         protected ArrayList<Mascota> doInBackground(Void... voids) {
-            String url = "http://192.168.1.143/mascotasCliente.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.1.179/ControlPaw/mascotasVeterinario.php"; //Sustituye por tu IPv4
 
             try {
                 URL direccion = new URL(url);
@@ -122,8 +174,8 @@ public class MascotasVeterinario extends AppCompatActivity {
 
                 for (int i = 0; i < listaMascotas.getLength(); i++) {
                     Element element = (Element) listaMascotas.item(i);
-                    int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
-                    int idDueno = Integer.parseInt(element.getElementsByTagName("idDueno").item(0).getTextContent());
+                    int id = Integer.parseInt(element.getElementsByTagName("idMascota").item(0).getTextContent());
+                    int idDueno = Integer.parseInt(element.getElementsByTagName("idCliente").item(0).getTextContent());
                     int idEspecie = Integer.parseInt(element.getElementsByTagName("idEspecie").item(0).getTextContent());
                     String raza = element.getElementsByTagName("raza").item(0).getTextContent();
                     String nombre = element.getElementsByTagName("nombre").item(0).getTextContent();
@@ -136,8 +188,8 @@ public class MascotasVeterinario extends AppCompatActivity {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date fechaNacimiento = dateFormat.parse(element.getElementsByTagName("fecha").item(0).getTextContent());
                     String fecha = dateFormat.format(fechaNacimiento);
-
-                    Mascota m = new Mascota(id, idDueno, idEspecie, raza, nombre, idGenero, microchip, castrado, enfermedad, baja, peso, fecha);
+                    String dni = element.getElementsByTagName("DNI").item(0).getTextContent();
+                    Mascota m = new Mascota(id, idDueno, idEspecie, raza, nombre, idGenero, microchip, castrado, enfermedad, baja, peso, fecha,dni);
                     mascotasList.add(m);
                 }
 
@@ -149,7 +201,7 @@ public class MascotasVeterinario extends AppCompatActivity {
                 e.printStackTrace();
 
             }
-
+            size = mascotasList.get(mascotasList.size()-1).getId();
             return mascotasList;
         }
 
@@ -165,6 +217,9 @@ public class MascotasVeterinario extends AppCompatActivity {
 
                 mascotas.addAll(mascotasList);
 
+                adaptador = new AdaptadorMain(mascotas); // Inicializar el adaptador con la lista de mascotas
+                recycler.setAdapter(adaptador); // Asignar el adaptador al RecyclerView
+
 
             } else {
 
@@ -174,7 +229,9 @@ public class MascotasVeterinario extends AppCompatActivity {
     }
 
     private class AdaptadorMain extends RecyclerView.Adapter<AdaptadorMain.ViewHolder> implements Filterable{
-        private final ArrayList<Mascota> mascotas;
+        private ArrayList<Mascota> mascotas;
+
+        private ArrayList<Mascota> allMascota;
 
         private ArrayList<Mascota> mascotasFiltradas;
         private String criterioFiltro;
@@ -200,12 +257,11 @@ public class MascotasVeterinario extends AppCompatActivity {
 
         public AdaptadorMain(ArrayList<Mascota> mascotas) {
             this.mascotas = mascotas;
-
+            this.allMascota =mascotas;
             this.mascotasFiltradas = new ArrayList<>(mascotas); // Inicializar lista filtrada con todos los datos
             this.criterioFiltro = "nombre"; // Criterio de filtrado predeterminado
             //nuevo codigo
         }
-
         @Override
         public Filter getFilter() {
             return new Filter() {
@@ -214,17 +270,24 @@ public class MascotasVeterinario extends AppCompatActivity {
                     String filtro = charSequence.toString().toLowerCase().trim();
                     ArrayList<Mascota> listaFiltrada = new ArrayList<>();
 
-
-                    if (criterioFiltro.equals("nombre")) {
+                    // Implementa el filtrado para todos los criterios necesarios
+                    String palabra = "";
+                    mascotas = allMascota;
+                    if (filtro.equals("")) {
+                        listaFiltrada = mascotas;
+                    }
+                    else {
                         for (Mascota mascota : mascotas) {
-                            if (mascota.getNombre().toLowerCase().contains(filtro)) {
+                           // palabra = mascota.getNombre().toLowerCase();
+                            palabra = (criterioFiltro.equals("nombre")) ? mascota.getNombre().toLowerCase() : mascota.getDni().toLowerCase();
+                            if (criterioFiltro.equals("nombre") && palabra.contains(filtro.toLowerCase())) {
+                                listaFiltrada.add(mascota);
+                            } else if (criterioFiltro.equals("DNI")&& palabra.contains(filtro.toLowerCase())) {
                                 listaFiltrada.add(mascota);
                             }
                         }
-                    } else if (criterioFiltro.equals("dni")) {
-
                     }
-
+                    mascotas = listaFiltrada;
                     FilterResults filterResults = new FilterResults();
                     filterResults.values = listaFiltrada;
                     return filterResults;
@@ -275,15 +338,21 @@ public class MascotasVeterinario extends AppCompatActivity {
                 public void onClick(View v) {
 
                     Context context = holder.itemView.getContext();
-                    Intent intent = new Intent(context, DatosMascotaCliente.class);
+                    Intent intent = new Intent(context, DatosMascotaVet.class);
                     String nombre = mascota.getNombre();
+                    int id = mascota.getId();
                     int especie = mascota.getIdEspecie();
                     String raza = mascota.getRaza();
                     int genero = mascota.getidGenero();
                     Float peso = mascota.getPeso();
                     String fecha = mascota.getFechaNacimiento();
                     int castrado = mascota.getCastrado();
+                    int idCliente = mascota.getIdPropietario();
+                    boolean enfermedad = mascota.isEnfermedad();
+                    boolean baja = mascota.isBaja();
                     String microchip = mascota.getMicrochip();
+                    intent.putExtra("clave", "modificarMascota");
+                    intent.putExtra("idMascota", id);
                     intent.putExtra("nombre", nombre);
                     intent.putExtra("raza", raza);
                     intent.putExtra("genero", genero);
@@ -292,6 +361,10 @@ public class MascotasVeterinario extends AppCompatActivity {
                     intent.putExtra("peso", peso);
                     intent.putExtra("fecha", fecha);
                     intent.putExtra("microchip", microchip);
+
+                    intent.putExtra("idCliente", idCliente);
+                    intent.putExtra("enfermedad", enfermedad);
+                    intent.putExtra("baja", baja);
 
                     startActivity(intent);
                     finish();
@@ -304,5 +377,14 @@ public class MascotasVeterinario extends AppCompatActivity {
         public int getItemCount() {
             return mascotas.size();
         }
+    }
+
+    private void añadir() {
+        Intent intent = new Intent(this, DatosMascotaVet.class);
+        intent.putExtra("clave", "insertarMascota");
+
+        intent.putExtra("idMascota", size+1);
+        startActivity(intent);
+        finish();
     }
 }

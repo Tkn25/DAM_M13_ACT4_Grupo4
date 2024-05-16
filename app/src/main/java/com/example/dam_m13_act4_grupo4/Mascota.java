@@ -7,6 +7,7 @@ public class Mascota {
     String nombre,  microchip, fechaNacimiento, raza;
     boolean enfermedad, baja;
     float peso;
+    String dni;
 
     public Mascota(int id, int idPropietario, int idEspecie, String raza, String nombre, int idGenero, String microchip, int castrado, boolean enfermedad, boolean baja, float peso, String fechaNacimiento) {
         this.id = id;
@@ -21,6 +22,32 @@ public class Mascota {
         this.baja = baja;
         this.peso = peso;
         this.fechaNacimiento = fechaNacimiento;
+    }
+    public Mascota(int id, int idPropietario, int idEspecie, String raza, String nombre, int idGenero, String microchip, int castrado, boolean enfermedad, boolean baja, float peso, String fechaNacimiento,String dni) {
+        this.id = id;
+        this.idPropietario = idPropietario;
+        this.idEspecie = idEspecie;
+        this.raza = raza;
+        this.nombre = nombre;
+        this.idGenero = idGenero;
+        this.microchip = microchip;
+        this.castrado = castrado;
+        this.enfermedad = enfermedad;
+        this.baja = baja;
+        this.peso = peso;
+        this.fechaNacimiento = fechaNacimiento;
+        this.dni = dni;
+    }
+    public int getIdGenero() {
+        return idGenero;
+    }
+
+    public void setIdGenero(int idGenero) {
+        this.idGenero = idGenero;
+    }
+
+    public void setRaza(String raza) {
+        this.raza = raza;
     }
 
     public int getId() {
@@ -117,5 +144,13 @@ public class Mascota {
 
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 }

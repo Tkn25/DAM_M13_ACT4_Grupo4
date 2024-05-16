@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
 import com.example.dam_m13_act4_grupo4.Cliente.PrincipalCliente;
 import com.example.dam_m13_act4_grupo4.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -51,7 +52,7 @@ public class LoginCliente extends AppCompatActivity {
                         public void run() {
                             String[] campo = {"username", "password"};
                             String[] datos = {username, password};
-                            PutData putData = new PutData("http://192.168.0.14/ControlPaw/loginCliente.php", "POST", campo, datos);
+                            PutData putData = new PutData("http://http://192.168.1.179/ControlPaw/loginCliente.php", "POST", campo, datos);
                             if (putData.startPut()) {
                                 if (putData.onComplete()) {
                                     final String result = putData.getResult();

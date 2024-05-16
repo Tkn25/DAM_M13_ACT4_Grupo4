@@ -4,4 +4,22 @@
         <item>Nombre</item>
         <item>DNI</item>
     </string-array>
+    <string-array name="opciones_genero">
+        <item>Macho</item>
+        <item>Hembra</item>
+        <item>Desconocido</item>
+    </string-array>
+    <string-array name="opciones_especie">
+        <item>Perro</item>
+        <item>Gato</item>
+        <item>Hurón</item>
+        <item>Hámster</item>
+        <item>Desconocido</item>
+    </string-array>
+    <string-array name="opciones_si_no">
+        <item>No</item>
+        <item>Sí</item>
+        <item>Desconocido</item>
+    </string-array>
+    <string name="title_activity_datos_mascota_vet">activity_datos_mascota_vet</string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dam_m13_act4_grupo4.R;
+import com.example.dam_m13_act4_grupo4.Veterinario.MascotasVeterinario;
 
 public class PrincipalCliente extends AppCompatActivity {
 
@@ -26,7 +27,10 @@ public class PrincipalCliente extends AppCompatActivity {
         mascotas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(PrincipalCliente.this, MascotasCliente.class);
+               //Intent intent = new Intent(PrincipalCliente.this, com.example.dam_m13_act4_grupo4.Veterinario.MascotasVeterinario.class);
+               // Intent intent = new Intent(PrincipalCliente.this, com.example.dam_m13_act4_grupo4.Veterinario.ClienteMascota.class);
                 startActivity(intent);
                 finish();
             }
