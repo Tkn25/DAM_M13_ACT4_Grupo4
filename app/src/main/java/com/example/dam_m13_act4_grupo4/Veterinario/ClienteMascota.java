@@ -1,7 +1,6 @@
 package com.example.dam_m13_act4_grupo4.Veterinario;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,10 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.dam_m13_act4_grupo4.Cliente.DatosMascotaCliente;
-import com.example.dam_m13_act4_grupo4.Cliente.MascotasCliente;
 import com.example.dam_m13_act4_grupo4.Cliente.PrincipalCliente;
-import com.example.dam_m13_act4_grupo4.Dueno;
+import com.example.dam_m13_act4_grupo4.POJO.Dueno;
 import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
@@ -39,9 +36,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

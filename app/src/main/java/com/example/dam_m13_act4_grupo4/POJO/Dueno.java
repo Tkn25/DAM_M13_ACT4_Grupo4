@@ -1,4 +1,4 @@
-package com.example.dam_m13_act4_grupo4;
+package com.example.dam_m13_act4_grupo4.POJO;
 
 public class Dueno {
     private int idCliente;
