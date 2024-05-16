@@ -1,4 +1,4 @@
-package com.example.dam_m13_act4_grupo4;
+package com.example.dam_m13_act4_grupo4.POJO;
 
 import java.util.Date;
 
@@ -48,6 +48,10 @@ public class Mascota {
 
     public void setRaza(String raza) {
         this.raza = raza;
+    }
+
+    public Mascota(String nombre){
+        this.nombre = nombre;
     }
 
     public int getId() {

@@ -21,7 +21,7 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MASCOTAS DE user"
+        android:text="MIS MASCOTAS"
         android:fontFamily="@font/lemonmilklight"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
