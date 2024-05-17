@@ -40,9 +40,6 @@
             android:name=".Login.LoginCliente"
             android:exported="false" />
         <activity
-            android:name=".Veterinario.MascotasVeterinario"
-            android:exported="false" />
-        <activity
             android:name=".Veterinario.DatosMascotaVet"
             android:exported="false" />
         <activity
