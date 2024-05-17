@@ -236,14 +236,34 @@ public class DatosMascotaVet extends AppCompatActivity {
             String url = "http://192.168.1.179/ControlPaw/"+clave+".php";
 
             try {
-
+/*
                         data = "idMascota=" + idMascota + "&nombre=" + nombre.getText().toString() + "&idDueno=" + getDuenoSeleccionado().getIdCliente()
                                 + "&idGenero=" + (spGenero.getSelectedItemPosition() + 1) + "&raza=" + raza.getText().toString() + "&idEspecie=" + (spEspecie.getSelectedItemPosition() + 1)
                                 + "&peso=" + peso.getText().toString() + "&castrado=" + (spCastrado.getSelectedItemPosition() + 1) + "&fechaNacimiento=" + fechaNacimiento.getText().toString()
                                 + "&microchip=" + microchip.getText().toString() + "&enfermedad=" + spEnfermedad.getSelectedItemPosition() + "&baja=" + spBaja.getSelectedItemPosition();
 
 
+*/
+            // Recoger los datos de los campos, asignando una cadena vacía si están vacíos
+            String nombreStr = nombre.getText().toString().isEmpty() ? "" : nombre.getText().toString();
+            String razaStr = raza.getText().toString().isEmpty() ? "" : raza.getText().toString();
+            String pesoStr = peso.getText().toString().isEmpty() ? "" : peso.getText().toString();
+            String fechaNacimientoStr = fechaNacimiento.getText().toString().isEmpty() ? "" : fechaNacimiento.getText().toString();
+            String microchipStr = microchip.getText().toString().isEmpty() ? "" : microchip.getText().toString();
 
+            // Construir la cadena de datos
+            data = "idMascota=" + idMascota
+                    + "&nombre=" + nombreStr
+                    + "&idDueno=" + getDuenoSeleccionado().getIdCliente()
+                    + "&idGenero=" + (spGenero.getSelectedItemPosition() + 1)
+                    + "&raza=" + razaStr
+                    + "&idEspecie=" + (spEspecie.getSelectedItemPosition() + 1)
+                    + "&peso=" + pesoStr
+                    + "&castrado=" + (spCastrado.getSelectedItemPosition() + 1)
+                    + "&fechaNacimiento=" + fechaNacimientoStr
+                    + "&microchip=" + microchipStr
+                    + "&enfermedad=" + spEnfermedad.getSelectedItemPosition()
+                    + "&baja=" + spBaja.getSelectedItemPosition();
                 // Convertir la cadena de datos a bytes
                 byte[] postData = data.getBytes(StandardCharsets.UTF_8);
 
