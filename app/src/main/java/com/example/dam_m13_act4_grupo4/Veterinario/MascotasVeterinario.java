@@ -85,7 +85,7 @@ public class MascotasVeterinario extends AppCompatActivity {
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MascotasVeterinario.this, PrincipalCliente.class);
+                Intent intent = new Intent(MascotasVeterinario.this, PrincipalVeterinario.class);
                 startActivity(intent);
                 finish();
             }
@@ -138,7 +138,7 @@ public class MascotasVeterinario extends AppCompatActivity {
 
         @Override
         protected ArrayList<Mascota> doInBackground(Void... voids) {
-            String url = "http://192.168.1.179/ControlPaw/mascotasVeterinario.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.0.14/ControlPaw/mascotasVeterinario.php"; // Sustituye por tu IPv4
 
             try {
                 URL direccion = new URL(url);
