@@ -300,11 +300,13 @@ public class CitasVeterinario extends AppCompatActivity {
                 {
                     Context context = holder.itemView.getContext();
                     Intent intent = new Intent(context, VerCitaVeterinario.class);
-                    int id = cita.getId();
+                    int idCita = cita.getId();
+                    int idMascota = cita.getMascota().getId();
                     String nombre = cita.getMascota().getNombre();
                     String motivo = cita.getMotivo();
                     String fecha = cita.getFecha();
-                    intent.putExtra("idConsulta", id);
+                    intent.putExtra("idConsulta", idCita);
+                    intent.putExtra("idMascota", idMascota);
                     intent.putExtra("nombre", nombre);
                     intent.putExtra("motivo", motivo);
                     intent.putExtra("fecha", fecha);
