@@ -50,6 +50,11 @@ public class Mascota {
         this.raza = raza;
     }
 
+    public Mascota(int id)
+    {
+        this.id = id;
+    }
+
     public Mascota(String nombre)
     {
         this.nombre = nombre;

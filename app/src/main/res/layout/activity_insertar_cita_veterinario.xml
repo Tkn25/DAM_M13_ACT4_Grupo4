@@ -156,6 +156,7 @@
         android:layout_marginEnd="28dp"
         android:ems="10"
         android:inputType="text"
+        android:hint="AAAA-MM-DD"
         android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/guidelinever5"
         app:layout_constraintEnd_toEndOf="parent"
