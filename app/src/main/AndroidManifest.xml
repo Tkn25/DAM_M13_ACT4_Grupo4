@@ -88,10 +88,10 @@
             android:name=".Veterinario.UserlistVeterinario"
             android:exported="false" />
         <activity
-            android:name=".Veterinario.MascotasVeterinario"
+            android:name=".Veterinario.InsertarCitaVeterinario"
             android:exported="false" />
         <activity
-            android:name=".Veterinario.InsertarCitaVeterinario"
+            android:name=".Veterinario.VerCitaVeterinario"
             android:exported="false" />
     </application>
 
