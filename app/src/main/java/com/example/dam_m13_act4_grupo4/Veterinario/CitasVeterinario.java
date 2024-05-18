@@ -1,6 +1,7 @@
 package com.example.dam_m13_act4_grupo4.Veterinario;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,29 +43,26 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CitasVeterinario extends AppCompatActivity {
-
-    //Creamos las variables globales de la clase
     private ImageButton volver;
     private RecyclerView lista;
     private final ArrayList<Cita> citas = new ArrayList<>();
     private final ArrayList<Mascota> mascotasCliente = new ArrayList<>();
     private CitasVeterinario.AdaptadorCitas adaptador;
-    private static String idDueno;
+    private static String idVet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_citas_veterinario);
-
-        //Asociamos las variables con sus elementos del layout
         volver = findViewById(R.id.imageButton13);
         lista = findViewById(R.id.recyclerCitas);
 
-        //Obtenemos la ID del usuario cliente
+        //region
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            idDueno = extras.getString("user");
+            idVet = extras.getString("idEmpleado");
         }
+        //endregion
 
         //Creamos un objeto de tipo adaptador y lo asignamos a la recycler
         adaptador = new CitasVeterinario.AdaptadorCitas(citas);
@@ -82,7 +80,7 @@ public class CitasVeterinario extends AppCompatActivity {
         });
 
         //Obtenemos las citas a partir del cliente
-        new CitasVeterinario.ObtenerMascotasTask().execute(idDueno);
+        new CitasVeterinario.ObtenerMascotasTask().execute(idVet);
 
     }
 
@@ -94,7 +92,7 @@ public class CitasVeterinario extends AppCompatActivity {
         @Override
         protected ArrayList<Mascota> doInBackground(String... dueno) {
             //Ponemos la dirección del .php
-            String url = "http://192.168.0.14/controlpaw/mascotasCliente.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.0.14/controlpaw/citasMascotaVeterinario.php"; //Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión
@@ -294,6 +292,26 @@ public class CitasVeterinario extends AppCompatActivity {
             holder.mascota.setText(cita.getMascota().getNombre());
             holder.motivo.setText(String.valueOf(cita.getMotivo()));
             holder.fecha.setText(String.valueOf(cita.getFecha()));
+
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Context context = holder.itemView.getContext();
+                    Intent intent = new Intent(context, VerCitaVeterinario.class);
+                    int id = cita.getId();
+                    String nombre = cita.getMascota().getNombre();
+                    String motivo = cita.getMotivo();
+                    String fecha = cita.getFecha();
+                    intent.putExtra("idConsulta", id);
+                    intent.putExtra("nombre", nombre);
+                    intent.putExtra("motivo", motivo);
+                    intent.putExtra("fecha", fecha);
+                    startActivity(intent);
+                    finish();
+                }
+            });
         }
 
         @Override
