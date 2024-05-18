@@ -44,6 +44,7 @@ import java.util.Date;
 
 public class CitasVeterinario extends AppCompatActivity {
     private ImageButton volver;
+    private ImageButton add;
     private RecyclerView lista;
     private final ArrayList<Cita> citas = new ArrayList<>();
     private final ArrayList<Mascota> mascotasCliente = new ArrayList<>();
@@ -56,6 +57,7 @@ public class CitasVeterinario extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_citas_veterinario);
         volver = findViewById(R.id.imageButton13);
+        add = findViewById(R.id.imageButton14);
         lista = findViewById(R.id.recyclerCitas);
 
         //region Recibimos el intent
@@ -78,6 +80,19 @@ public class CitasVeterinario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CitasVeterinario.this, PrincipalVeterinario.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        //endregion
+
+        //region Listener del botón para añadir una nueva consulta
+        add.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(CitasVeterinario.this, InsertarCitaVeterinario.class);
                 startActivity(intent);
                 finish();
             }
