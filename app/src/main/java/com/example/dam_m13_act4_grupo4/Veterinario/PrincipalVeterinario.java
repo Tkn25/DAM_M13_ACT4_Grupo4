@@ -12,7 +12,7 @@ import com.example.dam_m13_act4_grupo4.R;
 
 public class PrincipalVeterinario extends AppCompatActivity {
 
-    private ImageButton mascotas, salud, citas, consejos, registrar;
+    private ImageButton mascotas, salud, citas, consejos, registrar, userlist;
     private static String idVet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class PrincipalVeterinario extends AppCompatActivity {
         citas = findViewById(R.id.imageButton3);
         consejos = findViewById(R.id.imageButton4);
         registrar = findViewById(R.id.imageButton5);
+        userlist = findViewById(R.id.imageButton6);
 
         //region Recogemos la ID del usuario que nos ha pasado el login
         Bundle extras = getIntent().getExtras();
@@ -93,8 +94,20 @@ public class PrincipalVeterinario extends AppCompatActivity {
         });
         //endregion
 
-        //region Listener del botón para acceder a la sección de la lista de clientes
+        //region Listener del botón para acceder a la sección de registrar clientes
         registrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrincipalVeterinario.this, RegistrarVeterinario.class);
+                intent.putExtra("idEmpleado", idVet);
+                startActivity(intent);
+                finish();
+            }
+        });
+        //endregion
+
+        //region Listener del botón para acceder a la sección de la lista de clientes
+        userlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrincipalVeterinario.this, UserlistVeterinario.class);
