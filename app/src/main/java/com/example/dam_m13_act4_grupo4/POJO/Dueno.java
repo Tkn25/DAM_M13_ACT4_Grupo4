@@ -30,6 +30,15 @@ public class Dueno {
         this.direccion = direccion;
     }
 
+    public Dueno(int idCliente, String nombre, String DNI, String telefono, String direccion)
+    {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
+        this.DNI = DNI;
+        this.telefono = telefono;
+        this.direccion = direccion;
+    }
+
     public int getIdCliente() {
         return idCliente;
     }
