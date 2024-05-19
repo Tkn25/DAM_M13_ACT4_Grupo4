@@ -251,7 +251,7 @@ public class MascotasVeterinario extends AppCompatActivity {
 
         public AdaptadorMain(ArrayList<Mascota> mascotas) {
             this.mascotas = mascotas;
-            // Copia de la lista de mascotas
+            // Copia de la lista de mascotas.
             this.allMascota = mascotas;
             this.mascotasFiltradas = new ArrayList<>(mascotas);
             this.criterioFiltro = "nombre";
