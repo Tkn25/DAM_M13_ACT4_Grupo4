@@ -314,7 +314,7 @@ public class SaludVeterinario extends AppCompatActivity
     }
     //endregion
 
-    //region Clase que crea el adaptador para la RecyclerView con el objeto tratamiento
+    //region Clase que crea el adaptador para la RecyclerView con el objeto Tratamiento
     private class AdaptadorTratamientos extends RecyclerView.Adapter<SaludVeterinario.AdaptadorTratamientos.ViewHolder>
     {
         private final ArrayList<Tratamiento> tratamientos;
