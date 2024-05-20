@@ -3,10 +3,10 @@ package com.example.dam_m13_act4_grupo4.POJO;
 import java.util.Date;
 
 public class Seguimiento {
-    int id, idMascota;
-    String descripcion, imagen;
-    String fecha;
-    Mascota mascota;
+    private int id, idMascota;
+    private String descripcion, imagen;
+    private String fecha;
+    private Mascota mascota;
 
     public Seguimiento(int id, int idMascota, String descripcion, String imagen, String fecha) {
         this.idMascota = idMascota;
