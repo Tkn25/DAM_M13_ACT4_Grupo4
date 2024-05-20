@@ -36,8 +36,6 @@ import java.util.Date;
 
 public class VerSeguimientoVeterinario extends AppCompatActivity
 {
-
-    //Creamos las variables globales de la clase
     private ImageButton volver;
     private RecyclerView lista;
     private static String idDueno;
@@ -102,8 +100,6 @@ public class VerSeguimientoVeterinario extends AppCompatActivity
                 //region Leemos cada línea de la respuesta de la DB
                 String parametros = "dueno=" + dueno[0];
                 conexion.getOutputStream().write(parametros.getBytes());
-
-                //Leemos la respuesta de la BD hasta que no haya mas lineas para leer.
                 InputStream entrada = conexion.getInputStream();
                 BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
                 StringBuilder respuesta = new StringBuilder();
@@ -174,7 +170,6 @@ public class VerSeguimientoVeterinario extends AppCompatActivity
             //endregion
             else
             {
-                //Si hay algún error mostramos un mensaje por pantalla
                 Toast.makeText(getApplicationContext(), "No se ha podido establecer la conexión. Por favor, inténtelo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
             }
         }
@@ -313,7 +308,6 @@ public class VerSeguimientoVeterinario extends AppCompatActivity
         @Override
         public VerSeguimientoVeterinario.AdaptadorSeguimientos.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
         {
-            //Indicamos cual es el layout de los items
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.seguimientos_layout, viewGroup, false);
             return new VerSeguimientoVeterinario.AdaptadorSeguimientos.ViewHolder(view);
         }
@@ -323,7 +317,6 @@ public class VerSeguimientoVeterinario extends AppCompatActivity
         @Override
         public void onBindViewHolder(@NonNull VerSeguimientoVeterinario.AdaptadorSeguimientos.ViewHolder holder, @SuppressLint("RecyclerView") int position)
         {
-            //Asignamos el texto con el valor de los seguimientos a los campos
             Seguimiento seguimiento = seguimientos.get(position);
             holder.mascota.setText(seguimiento.getMascota().getNombre());
             holder.descripcion.setText(String.valueOf(seguimiento.getDescripcion()));
