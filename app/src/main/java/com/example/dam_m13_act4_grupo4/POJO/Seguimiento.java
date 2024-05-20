@@ -14,6 +14,14 @@ public class Seguimiento {
         this.fecha = fecha;
     }
 
+    public Seguimiento(int idMascota, String descripcion, String imagen, String fecha)
+    {
+        this.idMascota = idMascota;
+        this.descripcion = descripcion;
+        this.imagen = imagen;
+        this.fecha = fecha;
+    }
+
     public int getId() {
         return id;
     }
