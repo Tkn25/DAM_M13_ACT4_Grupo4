@@ -8,11 +8,12 @@ import android.widget.ImageButton;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dam_m13_act4_grupo4.Login.LoginSeleccion;
 import com.example.dam_m13_act4_grupo4.R;
 
 public class PrincipalCliente extends AppCompatActivity {
 
-    private ImageButton mascotas, salud, citas, consejos, protectoras;
+    private ImageButton mascotas, salud, citas, consejos, protectoras, logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +24,7 @@ public class PrincipalCliente extends AppCompatActivity {
         citas = findViewById(R.id.imageButton3);
         consejos = findViewById(R.id.imageButton4);
         protectoras = findViewById(R.id.imageButton5);
+        logout = findViewById(R.id.imageButton16);
         mascotas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +65,15 @@ public class PrincipalCliente extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrincipalCliente.this, Protectoras.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrincipalCliente.this, LoginSeleccion.class);
                 startActivity(intent);
                 finish();
             }

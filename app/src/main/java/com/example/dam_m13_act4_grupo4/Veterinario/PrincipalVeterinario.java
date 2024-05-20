@@ -8,11 +8,13 @@ import android.widget.ImageButton;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dam_m13_act4_grupo4.Cliente.PrincipalCliente;
+import com.example.dam_m13_act4_grupo4.Login.LoginSeleccion;
 import com.example.dam_m13_act4_grupo4.R;
 
 public class PrincipalVeterinario extends AppCompatActivity {
 
-    private ImageButton mascotas, salud, citas, consejos, registrar, userlist;
+    private ImageButton mascotas, salud, citas, consejos, registrar, userlist, logout;
     private static String idVet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class PrincipalVeterinario extends AppCompatActivity {
         consejos = findViewById(R.id.imageButton4);
         registrar = findViewById(R.id.imageButton5);
         userlist = findViewById(R.id.imageButton6);
+        logout = findViewById(R.id.imageButton16);
 
         //region Recogemos la ID del usuario que nos ha pasado el login
         Bundle extras = getIntent().getExtras();
@@ -117,5 +120,14 @@ public class PrincipalVeterinario extends AppCompatActivity {
             }
         });
         //endregion
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrincipalVeterinario.this, LoginSeleccion.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }
