@@ -96,6 +96,7 @@ public class SeguimientoVeterinario extends AppCompatActivity
                     Toast.makeText(SeguimientoVeterinario.this, "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //endregion
 
                 String fechaString = fecha.getText().toString();
                 if (!fechaString.matches("\\d{4}-\\d{2}-\\d{2}"))
@@ -175,7 +176,6 @@ public class SeguimientoVeterinario extends AppCompatActivity
                 //region Comprobamos la respuesta de la BD para comprobar que no hay errores
                 if (respuesta.toString().contains("Error al insertar datos de seguimiento"))
                 {
-                    //Almacenamos el error
                     mensaje = respuesta.toString();
                 }
                 else
@@ -277,6 +277,7 @@ public class SeguimientoVeterinario extends AppCompatActivity
                     mascotasList.add(m);
                     //endregion
                 }
+                //endregion
 
                 //region Cerramos la conexión
                 entrada.close();
@@ -307,7 +308,7 @@ public class SeguimientoVeterinario extends AppCompatActivity
                     nombres.add(mascota.getNombre());
                     ids.add(mascota.getId());
                 }
-                //Creamos y asignamos el adaptador para el spinner
+                //region Creamos y asignamos el adaptador para el spinner
                 adapter = new ArrayAdapter<>(SeguimientoVeterinario.this, android.R.layout.simple_spinner_item, nombres);
                 nombre.setAdapter(adapter);
                 //endregion
@@ -317,5 +318,7 @@ public class SeguimientoVeterinario extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "No se encontraron mascotas", Toast.LENGTH_SHORT).show();
             }
         }
+        //endregion
     }
+    //endregion
 }
