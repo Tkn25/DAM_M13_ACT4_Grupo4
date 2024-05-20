@@ -16,6 +16,13 @@ public class Tratamiento {
         this.finalizado = finalizado;
     }
 
+    public Tratamiento(Mascota mascota, String descripcion, String fecha)
+    {
+        this.mascota = mascota;
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+    }
+
     public int getId() {
         return id;
     }
