@@ -271,9 +271,11 @@ public class SeguimientoVeterinario extends AppCompatActivity
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date fechaNacimiento = dateFormat.parse(element.getElementsByTagName("fecha").item(0).getTextContent());
                     String fecha = dateFormat.format(fechaNacimiento);
-                    //Creamos un objeto Mascota con los datos obtenidos
+
+                    //region Creamos un objeto Mascota con los datos obtenidos
                     Mascota m = new Mascota(id, idPropietario, idEspecie, raza, nombre, idGenero, microchip, castrado, enfermedad, baja, peso, fecha);
                     mascotasList.add(m);
+                    //endregion
                 }
 
                 //region Cerramos la conexión
