@@ -3,12 +3,22 @@ package com.example.dam_m13_act4_grupo4.POJO;
 import java.util.Date;
 
 public class Seguimiento {
-    int id, idMascota;
-    String descripcion, imagen;
-    String fecha;
+    private int id, idMascota;
+    private String descripcion, imagen;
+    private String fecha;
+    private Mascota mascota;
 
     public Seguimiento(int id, int idMascota, String descripcion, String imagen, String fecha) {
         this.idMascota = idMascota;
+        this.descripcion = descripcion;
+        this.imagen = imagen;
+        this.fecha = fecha;
+    }
+
+    public Seguimiento(int idMascota, Mascota mascota,String descripcion, String imagen, String fecha)
+    {
+        this.idMascota = idMascota;
+        this.mascota = mascota;
         this.descripcion = descripcion;
         this.imagen = imagen;
         this.fecha = fecha;
@@ -52,6 +62,14 @@ public class Seguimiento {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public Mascota getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Mascota mascota) {
+        this.mascota = mascota;
     }
 }
 

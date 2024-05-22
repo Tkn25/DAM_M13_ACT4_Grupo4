@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.dam_m13_act4_grupo4.POJO.Global;
 import com.example.dam_m13_act4_grupo4.POJO.Mascota;
-import com.example.dam_m13_act4_grupo4.POJO.Tratamiento;
+import com.example.dam_m13_act4_grupo4.POJO.Seguimiento;
 import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
@@ -35,30 +34,26 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class SaludVeterinario extends AppCompatActivity
+public class VerSeguimientoVeterinario extends AppCompatActivity
 {
-
     private ImageButton volver;
     private RecyclerView lista;
-    private Button seguimiento, verSeguimiento, tratamiento;
     private static String idDueno;
-    private final ArrayList<Tratamiento> tratamientos = new ArrayList<>();
+    private final ArrayList<Seguimiento> seguimientos = new ArrayList<>();
     private final ArrayList<Mascota> mascotasCliente = new ArrayList<>();
-    private SaludVeterinario.AdaptadorTratamientos adaptador;
+    private VerSeguimientoVeterinario.AdaptadorSeguimientos adaptador;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_salud_veterinario);
+        setContentView(R.layout.activity_ver_seguimiento_veterinario);
+
         volver = findViewById(R.id.imageButton14);
-        lista = findViewById(R.id.recyclerViewTratamientos);
-        seguimiento = findViewById(R.id.buttonSeguimiento);
-        verSeguimiento = findViewById(R.id.buttonVerSeguimiento);
-        tratamiento = findViewById(R.id.buttonTratamiento);
+        lista = findViewById(R.id.recyclerViewSeguimientos);
 
         //region Creamos el adaptador y lo asociamos a la RecyclerView
-        adaptador = new SaludVeterinario.AdaptadorTratamientos(tratamientos);
+        adaptador = new VerSeguimientoVeterinario.AdaptadorSeguimientos(seguimientos);
         lista.setAdapter(adaptador);
         lista.setLayoutManager(new LinearLayoutManager(this));
         //endregion
@@ -69,59 +64,20 @@ public class SaludVeterinario extends AppCompatActivity
             idDueno = extras.getString("user");
         }
 
-        //region Listener del botón para volver al menú principal
+        //region Listener del botón para volver a la lista de tratamientos
         volver.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(SaludVeterinario.this, PrincipalVeterinario.class);
+                Intent intent = new Intent(VerSeguimientoVeterinario.this, SaludVeterinario.class);
                 startActivity(intent);
                 finish();
             }
         });
         //endregion
 
-        //region Botón para añadir un nuevo seguimiento
-        seguimiento.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(SaludVeterinario.this, SeguimientoVeterinario.class);
-                intent.putExtra("user", idDueno);
-                startActivity(intent);
-            }
-        });
-        //endregion
-
-        //region Botón para acceder a la lista de seguimientos
-        verSeguimiento.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(SaludVeterinario.this, VerSeguimientoVeterinario.class);
-                intent.putExtra("user", idDueno);
-                startActivity(intent);
-            }
-        });
-        //endregion
-
-        //region Botón para añadir un nuevo tratamiento
-        tratamiento.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(SaludVeterinario.this, TratamientoVeterinario.class);
-                intent.putExtra("user", idDueno);
-                startActivity(intent);
-            }
-        });
-        //endregion
-
-        new SaludVeterinario.ObtenerMascotasClienteTask().execute(idDueno);
+        new VerSeguimientoVeterinario.ObtenerMascotasClienteTask().execute(idDueno);
     }
 
     private class ObtenerMascotasClienteTask extends AsyncTask<String, Void, ArrayList<Mascota>>
@@ -142,6 +98,8 @@ public class SaludVeterinario extends AppCompatActivity
                 //endregion
 
                 //region Leemos cada línea de la respuesta de la DB
+                String parametros = "dueno=" + dueno[0];
+                conexion.getOutputStream().write(parametros.getBytes());
                 InputStream entrada = conexion.getInputStream();
                 BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
                 StringBuilder respuesta = new StringBuilder();
@@ -207,7 +165,7 @@ public class SaludVeterinario extends AppCompatActivity
                 mascotasCliente.clear();
                 mascotasCliente.addAll(mascotasList);
                 adaptador.notifyDataSetChanged();
-                new SaludVeterinario.ObtenerTratamientosTask().execute();
+                new VerSeguimientoVeterinario.ObtenerSeguimientosTask().execute();
             }
             //endregion
             else
@@ -218,15 +176,15 @@ public class SaludVeterinario extends AppCompatActivity
         //endregion
     }
 
-    //region Clase utilizada para obtener los datos de los tratamientos en la DB mediante documento PHP
-    private class ObtenerTratamientosTask extends AsyncTask<Void, Void, ArrayList<Tratamiento>>
+    //region Clase utilizada para obtener los datos de los seguimientos en la DB mediante documento PHP
+    private class ObtenerSeguimientosTask extends AsyncTask<Void, Void, ArrayList<Seguimiento>>
     {
-        ArrayList<Tratamiento> tratamientosList = new ArrayList<>();
+        ArrayList<Seguimiento> seguimientosList = new ArrayList<>();
 
         @Override
-        protected ArrayList<Tratamiento> doInBackground(Void... Void)
+        protected ArrayList<Seguimiento> doInBackground(Void... Void)
         {
-            String url = "http://192.168.0.14/controlpaw/tratamientosVeterinario.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.0.14/controlpaw/verSeguimientoVeterinario.php"; // Sustituye por tu IPv4
 
             try
             {
@@ -242,6 +200,7 @@ public class SaludVeterinario extends AppCompatActivity
                 BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
                 StringBuilder respuesta = new StringBuilder();
                 String linea;
+
                 while ((linea = lector.readLine()) != null)
                 {
                     respuesta.append(linea);
@@ -250,27 +209,26 @@ public class SaludVeterinario extends AppCompatActivity
 
                 //region Metemos los elementos en un document
                 Document document = Global.convertirStringToXMLDocument(respuesta.toString());
-                NodeList listaConsultas = document.getElementsByTagName("tratamiento");
+                NodeList listaConsultas = document.getElementsByTagName("seguimiento");
                 //endregion
 
                 for (int i = 0; i < listaConsultas.getLength(); i++)
-                //region Extraemos los datos de cada tratamiento
+                //region Extraemos los datos de cada seguimiento
                 {
                     Element element = (Element) listaConsultas.item(i);
-                    int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
                     int idMascota = Integer.parseInt(element.getElementsByTagName("idMascota").item(0).getTextContent());
                     String descripcion = element.getElementsByTagName("descripcion").item(0).getTextContent();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date fechaCita = dateFormat.parse(element.getElementsByTagName("fecha").item(0).getTextContent());
                     String fecha = dateFormat.format(fechaCita);
-                    int finalizado = Integer.parseInt(element.getElementsByTagName("finalizado").item(0).getTextContent());
+                    String imagen = element.getElementsByTagName("imagen").item(0).getTextContent();
                     for (Mascota mascota : mascotasCliente)
                     {
                         if (mascota.getId() == idMascota)
                         {
-                            //region Introducimos los datos en un nuevo objeto Tratamiento, el cual guardamos en la lista
-                            Tratamiento t = new Tratamiento(id, mascota, descripcion, fecha, finalizado);
-                            tratamientosList.add(t);
+                            //region Introducimos los datos en un nuevo objeto Seguimiento, el cual guardamos en la lista
+                            Seguimiento t = new Seguimiento(idMascota, mascota, descripcion, imagen, fecha );
+                            seguimientosList.add(t);
                             //endregion
                             break;
                         }
@@ -287,19 +245,19 @@ public class SaludVeterinario extends AppCompatActivity
             {
                 e.printStackTrace();
             }
-            return tratamientosList;
+            return seguimientosList;
         }
 
         //region Tras la ejecucion
         @Override
-        protected void onPostExecute(ArrayList<Tratamiento> tratamientosList)
+        protected void onPostExecute(ArrayList<Seguimiento> seguimientosList)
         {
-            super.onPostExecute(tratamientosList);
-            if (tratamientosList != null && !tratamientosList.isEmpty())
+            super.onPostExecute(seguimientosList);
+            if (seguimientosList != null && !seguimientosList.isEmpty())
             //region Si la lista no está vacía
             {
-                tratamientos.clear();
-                tratamientos.addAll(tratamientosList);
+                seguimientos.clear();
+                seguimientos.addAll(seguimientosList);
                 adaptador.notifyDataSetChanged();
             }
             //endregion
@@ -314,10 +272,10 @@ public class SaludVeterinario extends AppCompatActivity
     }
     //endregion
 
-    //region Clase que crea el adaptador para la RecyclerView con el objeto Tratamiento
-    private class AdaptadorTratamientos extends RecyclerView.Adapter<SaludVeterinario.AdaptadorTratamientos.ViewHolder>
+    //region Clase que crea el adaptador para la RecyclerView con el objeto Seguimiento
+    private class AdaptadorSeguimientos extends RecyclerView.Adapter<VerSeguimientoVeterinario.AdaptadorSeguimientos.ViewHolder>
     {
-        private final ArrayList<Tratamiento> tratamientos;
+        private final ArrayList<Seguimiento> seguimientos;
 
         public class ViewHolder extends RecyclerView.ViewHolder
         {
@@ -325,48 +283,51 @@ public class SaludVeterinario extends AppCompatActivity
             private final TextView mascota;
             private final TextView descripcion;
             private final TextView fecha;
+            private final TextView imagen;
             //endregion
 
             //region Relacionamos las variables con cada elemento
             public ViewHolder(View view)
             {
                 super(view);
-                mascota = view.findViewById(R.id.textViewMascotaTratamiento);
-                descripcion = view.findViewById(R.id.textViewDescripcionTratamiento);
-                fecha = view.findViewById(R.id.textViewFechaTratamiento);
+                mascota = view.findViewById(R.id.textViewMascotaSeguimiento);
+                descripcion = view.findViewById(R.id.textViewDescripcionSeguimiento);
+                fecha = view.findViewById(R.id.textViewFechaSeguimiento);
+                imagen = view.findViewById(R.id.textViewImagenSeguimiento);
             }
             //endregion
         }
 
-        public AdaptadorTratamientos(ArrayList<Tratamiento> tratamientos)
+        public AdaptadorSeguimientos(ArrayList<Seguimiento> seguimientos)
         {
-            this.tratamientos = tratamientos;
+            this.seguimientos = seguimientos;
         }
 
         //region Establecemos el layout de los items
         @NonNull
         @Override
-        public SaludVeterinario.AdaptadorTratamientos.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
+        public VerSeguimientoVeterinario.AdaptadorSeguimientos.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
         {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.tratamientos_layout, viewGroup, false);
-            return new SaludVeterinario.AdaptadorTratamientos.ViewHolder(view);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.seguimientos_layout, viewGroup, false);
+            return new VerSeguimientoVeterinario.AdaptadorSeguimientos.ViewHolder(view);
         }
         //endregion
 
         //region Introducimos los datos en los elementos de layout
         @Override
-        public void onBindViewHolder(@NonNull SaludVeterinario.AdaptadorTratamientos.ViewHolder holder, @SuppressLint("RecyclerView") int position)
+        public void onBindViewHolder(@NonNull VerSeguimientoVeterinario.AdaptadorSeguimientos.ViewHolder holder, @SuppressLint("RecyclerView") int position)
         {
-            Tratamiento tratamiento = tratamientos.get(position);
-            holder.mascota.setText(tratamiento.getMascota().getNombre());
-            holder.descripcion.setText(String.valueOf(tratamiento.getDescripcion()));
-            holder.fecha.setText(String.valueOf(tratamiento.getFecha()));
+            Seguimiento seguimiento = seguimientos.get(position);
+            holder.mascota.setText(seguimiento.getMascota().getNombre());
+            holder.descripcion.setText(String.valueOf(seguimiento.getDescripcion()));
+            holder.fecha.setText(String.valueOf(seguimiento.getFecha()));
+            holder.imagen.setText(String.valueOf(seguimiento.getImagen()));
         }
         //endregion
 
         @Override
         public int getItemCount() {
-            return tratamientos.size();
+            return seguimientos.size();
         }
     }
     //endregion

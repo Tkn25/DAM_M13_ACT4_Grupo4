@@ -5,59 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Veterinario.SaludVeterinario">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.33" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.66" />
-
-    <Button
-        android:id="@+id/buttonTratamiento"
-        android:layout_width="120dp"
-        android:layout_height="49dp"
-        android:text="AÑADIR TRATAMIENTO"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline43"
-        app:layout_constraintEnd_toStartOf="@+id/guideline13"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline42"
-        app:layout_constraintVertical_bias="0.708" />
-
-    <Button
-        android:id="@+id/buttonVerSeguimiento"
-        android:layout_width="120dp"
-        android:layout_height="49dp"
-        android:paddingHorizontal="8dp"
-        android:text="VER SEGUIMIENTO"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline43"
-        app:layout_constraintEnd_toStartOf="@+id/guideline14"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="@+id/guideline42"
-        app:layout_constraintVertical_bias="0.708" />
-
-    <Button
-        android:id="@+id/buttonSeguimiento"
-        android:layout_width="120dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="4dp"
-        android:text="AÑADIR SEGUIMIENTO"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline43"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline14"
-        app:layout_constraintTop_toTopOf="@+id/guideline42"
-        app:layout_constraintVertical_bias="0.708" />
+    tools:context=".Veterinario.VerSeguimientoVeterinario">
 
     <ImageView
         android:id="@+id/imageView9"
@@ -92,10 +40,10 @@
 
     <TextView
         android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LISTA DE TRATAMIENTOS"
+        android:layout_width="199dp"
+        android:layout_height="25dp"
         android:fontFamily="@font/lemonmilk"
+        android:text="Lista de seguimientos"
         android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline41"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +58,7 @@
         app:layout_constraintGuide_percent="0.24487004" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewTratamientos"
+        android:id="@+id/recyclerViewSeguimientos"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline42"
@@ -123,15 +71,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline43"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9" />
-
-
+        app:layout_constraintGuide_percent="0.95" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

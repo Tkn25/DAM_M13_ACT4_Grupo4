@@ -1,4 +1,4 @@
-package com.example.dam_m13_act4_grupo4.Cliente;
+package com.example.dam_m13_act4_grupo4.Veterinario;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,10 +13,13 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.dam_m13_act4_grupo4.POJO.Global;
 import com.example.dam_m13_act4_grupo4.POJO.Mascota;
-import com.example.dam_m13_act4_grupo4.POJO.Seguimiento;
+import com.example.dam_m13_act4_grupo4.POJO.Tratamiento;
 import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
@@ -36,12 +39,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SeguimientoCliente extends AppCompatActivity {
-
-    //Creamos las variables globales de la clase
+public class TratamientoVeterinario extends AppCompatActivity
+{
     private ImageButton volver;
     private Spinner nombre;
-    private EditText descripcion, fecha, enlace;
+    private EditText descripcion, fecha;
     private Button enviar;
     private final ArrayList<Mascota> mascotas = new ArrayList<>();
     private final List<Integer> ids = new ArrayList<>();
@@ -50,179 +52,209 @@ public class SeguimientoCliente extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_seguimiento_cliente);
+        setContentView(R.layout.activity_tratamiento_veterinario);
 
-        //Asociamos las variables con sus elementos del layout
         volver = findViewById(R.id.imageButton15);
         nombre = findViewById(R.id.spinnerNombre);
         descripcion = findViewById(R.id.editText2);
         fecha = findViewById(R.id.editTextDate);
-        enlace = findViewById(R.id.editText3);
         enviar = findViewById(R.id.button);
 
-        //Obtenemos la ID del usuario cliente
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
+        if (extras != null)
+        {
             idDueno = extras.getString("user");
         }
 
-        //Obtenemos la lista de mascotas del usuario cliente
-        new ObtenerMascotasTask().execute(idDueno);
+        new TratamientoVeterinario.ObtenerMascotasTask().execute(idDueno);
 
-        //En caso de pulsar el botón volver, se volverá a la actividad anterior.
-        volver.setOnClickListener(new View.OnClickListener() {
+        //region Listener del botón para volver a la lista de tratamientos
+        volver.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SeguimientoCliente.this, SaludCliente.class);
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(TratamientoVeterinario.this, SaludVeterinario.class);
                 startActivity(intent);
                 finish();
             }
         });
+        //endregion
 
-        //En caso de pulsar el botón enviar, se intentará enviar los nuevos datos de seguimiento a la BBDD
-        enviar.setOnClickListener(new View.OnClickListener() {
+        //region Listener del botón para enviar el nuevo tratamiento
+        enviar.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                //En caso de que no esten todos los datos rellenos, no se enviaran los datos y saltará un mensaje.
-                if (!nombre.isSelected() || descripcion.getText().toString().isEmpty() || fecha.getText().toString().isEmpty() || enlace.getText().toString().isEmpty()) {
-                    Toast.makeText(SeguimientoCliente.this, "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
+            public void onClick(View v)
+            {
+                if (descripcion.getText().toString().isEmpty() || fecha.getText().toString().isEmpty())
+                //region En caso de haber campos vacios
+                {
+                    Toast.makeText(TratamientoVeterinario.this, "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                //Lo mismo pasará si la fecha no tiene el formato correcto
                 String fechaString = fecha.getText().toString();
-                if (!fechaString.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                    Toast.makeText(SeguimientoCliente.this, "La fecha debe tener formato YYYY-mm-dd", Toast.LENGTH_SHORT).show();
+                if (!fechaString.matches("\\d{4}-\\d{2}-\\d{2}"))
+                //region En caso de formato de fecha incorrecto
+                {
+                    Toast.makeText(TratamientoVeterinario.this, "La fecha debe tener formato YYYY-mm-dd", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //endregion
 
-                //Almacenamos los datos para posteriormente crear un objeto Seguimiento
+                //region Almacenamos los datos y los introducimos en un objeto Tratamiento
                 int posicionSeleccionada = nombre.getSelectedItemPosition();
                 idFinal = ids.get(posicionSeleccionada);
-                String descripcionSeguimiento = descripcion.getText().toString();
-                String imagen = enlace.getText().toString();
-
-                Seguimiento s = new Seguimiento(0, idFinal, descripcionSeguimiento, imagen, fechaString);
-                new InsertarSeguimientoTask().execute(s);
+                String descripcionTratamiento = descripcion.getText().toString();
+                Mascota mascota = new Mascota(idFinal);
+                Tratamiento t = new Tratamiento(mascota, descripcionTratamiento, fechaString);
+                new TratamientoVeterinario.InsertarTratamientoTask().execute(t);
+                //endregion
             }
         });
+        //endregion
 
     }
 
-    //Clase encargada de insertar los datos del nuevo seguimiento en la BBDD a través de un .php
-    private class InsertarSeguimientoTask extends AsyncTask<Seguimiento, String, String> {
+    //region Clase encargada de insertar los datos del nuevo tratamiento en la DB a través de un PHP
+    private class InsertarTratamientoTask extends AsyncTask<Tratamiento, String, String>
+    {
         @Override
-        protected String doInBackground(Seguimiento... seguimiento) {
+        protected String doInBackground(Tratamiento... tratamiento)
+        {
             String mensaje = "";
 
-            try {
-                //Escribimos la dirección del .php
-                String url = "http://192.168.0.14/controlpaw/seguimientoCliente.php"; //Sustituye por tu IPv4
+            try
+            {
+                String url = "http://192.168.0.14/controlpaw/insertarTratamientoVeterinario.php"; // Sustituye por tu IPv4
 
-                //Guardamos los parametros
-                String parametros = "&idMascota=" + seguimiento[0].getIdMascota() +
-                        "&descripcion=" + seguimiento[0].getDescripcion() +
-                        "&fecha=" + seguimiento[0].getFecha() +
-                        "&img=" + seguimiento[0].getImagen();
+                //region Guardamos los parámetros
+                String parametros = "&idMascota=" + tratamiento[0].getMascota().getId() +
+                        "&descripcion=" + tratamiento[0].getDescripcion() +
+                        "&fecha=" + tratamiento[0].getFecha();
+                //endregion
 
-                //Establecemos la conexión
+                //region Establecemos la conexión
                 URL direccion = new URL(url);
                 HttpURLConnection conexion = (HttpURLConnection) direccion.openConnection();
                 conexion.setRequestMethod("POST");
                 conexion.setDoOutput(true);
+                //endregion
 
-                //Enviamos los datos a la BD
+                //region Enviamos los datos al PHP
                 OutputStream outputStream = conexion.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 writer.write(parametros);
                 writer.flush();
                 writer.close();
                 outputStream.close();
+                //endregion
 
-                //Leemos la respuesta de la BD
+                //regionLeemos la respuesta del PHP
                 InputStream entrada = conexion.getInputStream();
                 BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
                 StringBuilder respuesta = new StringBuilder();
                 String linea;
-                while ((linea = lector.readLine()) != null) {
+                while ((linea = lector.readLine()) != null)
+                {
                     respuesta.append(linea);
                 }
+                //endregion
 
-                //Cerramos la conexión
+                //region Cerramos la conexión
                 entrada.close();
                 conexion.disconnect();
+                //endregion
 
-                //Comprobamos la respuesta de la BD para comprobar que no hay errores
-                if (respuesta.toString().contains("Error al insertar datos de seguimiento")) {
+                //region Comprobamos la respuesta de la BD para comprobar que no hay errores
+                if (respuesta.toString().contains("Error al insertar datos de tratamiento"))
+                {
                     //Almacenamos el error
                     mensaje = respuesta.toString();
-                } else {
+                }
+                else
+                {
                     mensaje = "";
                 }
-            } catch (Exception e) {
+                //endregion
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
             return mensaje;
         }
 
-        //Cuando se termine de ejecutar...
+        //region Tras la ejecución
         @Override
-        protected void onPostExecute(String mensaje) {
+        protected void onPostExecute(String mensaje)
+        {
             super.onPostExecute(mensaje);
 
-            if (mensaje.isEmpty()) {
-                //Si no hay mensaje de error, indicamos que salio correctamente y volvemos a la actividad anterior.
-                Toast.makeText(SeguimientoCliente.this, "DATOS INSERTADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SeguimientoCliente.this, SaludCliente.class);
+            if (mensaje.isEmpty())
+            //region En caso de no haber mensajes de error, notificamos al usuario y volvemos a la lista de tratamientos
+            {
+                Toast.makeText(TratamientoVeterinario.this, "DATOS INSERTADOS CORRECTAMENTE", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(TratamientoVeterinario.this, SaludVeterinario.class);
                 startActivity(intent);
                 finish();
-            } else {
-                //Si ocurre algo, mostramos el error
-                Toast.makeText(SeguimientoCliente.this, "Ha ocurrido un error al insertar los datos", Toast.LENGTH_SHORT).show();
             }
+            //endregion
+            else
+            //region Notificamos al usuario en caso de haber algún error al insertar los datos
+            {
+                Toast.makeText(TratamientoVeterinario.this, mensaje, Toast.LENGTH_SHORT).show();
+            }
+            //endregion
         }
+        //endregion
     }
+    //endregion
 
-    //Clase encargada de obtener los datos de las mascotas en la BBDD a través de un .php
-    private class ObtenerMascotasTask extends AsyncTask<String, Void, ArrayList<Mascota>> {
-        //Creamos el array donde almacenaremos todos los datos de las mascotas
+    //region Clase encargada de obtener los datos de las mascotas en la DB a través de un PH
+    private class ObtenerMascotasTask extends AsyncTask<String, Void, ArrayList<Mascota>>
+    {
         ArrayList<Mascota> mascotasList = new ArrayList<>();
 
         @Override
-        protected ArrayList<Mascota> doInBackground(String... dueno) {
-            //Ponemos la dirección del .php
-            String url = "http://192.168.0.14/controlpaw/mascotasCliente.php"; //Sustituye por tu IPv4
+        protected ArrayList<Mascota> doInBackground(String... dueno)
+        {
+            String url = "http://192.168.0.14/controlpaw/saludMascotasVeterinario.php"; // Sustituye por tu IPv4
 
-            try {
-                //Creamos la conexión
+            try
+            {
+                //region Creamos la conexión
                 URL direccion = new URL(url);
                 HttpURLConnection conexion = (HttpURLConnection) direccion.openConnection();
                 conexion.setRequestMethod("POST");
                 conexion.setDoOutput(true);
+                //endregion
 
-                //Enviamos la id del dueño como parámetro
-                String parametros = "dueno=" + dueno[0];
-                conexion.getOutputStream().write(parametros.getBytes());
-
-                //Leemos la respuesta de la BD hasta que no haya mas lineas para leer.
+                //region Leemos todas las líneas de la respuesta de la DB
                 InputStream entrada = conexion.getInputStream();
                 BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
                 StringBuilder respuesta = new StringBuilder();
                 String linea;
 
-                while ((linea = lector.readLine()) != null) {
+                while ((linea = lector.readLine()) != null)
+                {
                     respuesta.append(linea);
                 }
+                //endregion
 
-                //Convertimos los datos recibidos en un Document
+                //region Metemos los elementos en un Document
                 Document document = Global.convertirStringToXMLDocument(respuesta.toString());
-                //Obtenemos los elementos de cada mascota
                 NodeList listaMascotas = document.getElementsByTagName("mascota");
-                //Con este bucle conseguimos los datos de cada mascota
-                for (int i = 0; i < listaMascotas.getLength(); i++) {
+                //endregion
+
+                for (int i = 0; i < listaMascotas.getLength(); i++)
+                //region Extraemos los datos de cada mascota
+                {
                     Element element = (Element) listaMascotas.item(i);
                     int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
                     int idPropietario = Integer.parseInt(element.getElementsByTagName("idDueno").item(0).getTextContent());
@@ -243,39 +275,42 @@ public class SeguimientoCliente extends AppCompatActivity {
                     mascotasList.add(m);
                 }
 
-                //Cerramos la conexión
+                //region Cerramos la conexión
                 entrada.close();
                 conexion.disconnect();
-            } catch (Exception e) {
+                //endregion
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
             return mascotasList;
         }
 
-        //Cuando se termine de ejecutar...
+        //region Tras la ejecución
         @Override
-        protected void onPostExecute(ArrayList<Mascota> mascotasList) {
+        protected void onPostExecute(ArrayList<Mascota> mascotasList)
+        {
             super.onPostExecute(mascotasList);
-            if (mascotasList != null && !mascotasList.isEmpty()) {
-                //Limpiamos la lista para evitar errores
+            if (mascotasList != null && !mascotasList.isEmpty())
+            {
                 mascotas.clear();
-                //Agregamos las mascotas encontradas a la lista de mascotas
                 mascotas.addAll(mascotasList);
 
-                //Creamos una lista con el nombre de las mascotas
+                //region Creamos una lista y almacenamos los nombres e IDs de las mascotas
                 List<String> nombres = new ArrayList<>();
-                for (Mascota mascota : mascotasList) {
-                    //Almacenamos los nombres en la lista
+                for (Mascota mascota : mascotasList)
+                {
                     nombres.add(mascota.getNombre());
-                    //Almacenamos las ID's en la lista de ID's
                     ids.add(mascota.getId());
                 }
-                //Creamos el adaptador para el spinner seleccionando la lista de nombres
-                adapter = new ArrayAdapter<>(SeguimientoCliente.this, android.R.layout.simple_spinner_item, nombres);
-                //Asignamos el adaptador al spinner.
+                //Creamos y asignamos el adaptador para el spinner
+                adapter = new ArrayAdapter<>(TratamientoVeterinario.this, android.R.layout.simple_spinner_item, nombres);
                 nombre.setAdapter(adapter);
-            } else {
-                //En caso de no encontrarse mascotas asociadas al usuario saltará un mensaje
+                //endregion
+            }
+            else
+            {
                 Toast.makeText(getApplicationContext(), "No se encontraron mascotas", Toast.LENGTH_SHORT).show();
             }
         }

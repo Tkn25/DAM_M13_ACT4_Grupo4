@@ -2,8 +2,8 @@ package com.example.dam_m13_act4_grupo4.POJO;
 
 
 public class Consejo {
-    int id;
-    String titulo, descripcion, urlImagen;
+    private int id;
+    private String titulo, descripcion, urlImagen;
 
     public Consejo(int id, String titulo, String descripcion, String urlImagen) {
         this.id = id;

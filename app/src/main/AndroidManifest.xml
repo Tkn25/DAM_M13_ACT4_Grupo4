@@ -16,6 +16,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Veterinario.TratamientoVeterinario"
+            android:exported="false" />
+        <activity
+            android:name=".Veterinario.VerSeguimientoVeterinario"
+            android:exported="false" />
+        <activity
+            android:name=".Veterinario.SeguimientoVeterinario"
+            android:exported="false" />
+        <activity
             android:name=".Veterinario.InsertarConsejoVeterinario"
             android:exported="false" />
         <activity
@@ -85,10 +94,10 @@
             android:name=".Veterinario.UserlistVeterinario"
             android:exported="false" />
         <activity
-            android:name=".Veterinario.MascotasVeterinario"
+            android:name=".Veterinario.InsertarCitaVeterinario"
             android:exported="false" />
         <activity
-            android:name=".Veterinario.InsertarCitaVeterinario"
+            android:name=".Veterinario.VerCitaVeterinario"
             android:exported="false" />
     </application>
 
