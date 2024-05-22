@@ -4,6 +4,10 @@
         <item>Nombre</item>
         <item>DNI</item>
     </string-array>
+    <string-array name="opciones_tipo">
+        <item>Veterinario</item>
+        <item>Cliente</item>
+    </string-array>
     <string-array name="opciones_genero">
         <item>Macho</item>
         <item>Hembra</item>
