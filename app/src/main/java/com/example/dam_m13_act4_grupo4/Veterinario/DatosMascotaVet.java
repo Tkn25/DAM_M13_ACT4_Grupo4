@@ -237,7 +237,7 @@ public class DatosMascotaVet extends AppCompatActivity {
 
             try {
 
-            // Recoger los datos de los campos, asignando una cadena vacía si están vacíos
+            // Recoger los datos de los campos, asignando una cadena vacía si están vacíos.
             String nombreStr = nombre.getText().toString().isEmpty() ? "" : nombre.getText().toString();
             String razaStr = raza.getText().toString().isEmpty() ? "" : raza.getText().toString();
             String pesoStr = peso.getText().toString().isEmpty() ? "" : peso.getText().toString();

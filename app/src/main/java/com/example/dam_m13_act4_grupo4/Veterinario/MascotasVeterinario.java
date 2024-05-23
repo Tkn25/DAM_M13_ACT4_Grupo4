@@ -151,7 +151,7 @@ public class MascotasVeterinario extends AppCompatActivity {
         return null;
     }
 
-    //Clase para la obtencion de datos de la mascota
+    //Clase para la obtencion de datos de la mascota.
     private class ObtenerMascotasTask extends AsyncTask<Void, Void, ArrayList<Mascota>> {
         ArrayList<Mascota> mascotasList = new ArrayList<>();
 
