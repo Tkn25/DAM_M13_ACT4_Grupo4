@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -95,6 +96,20 @@ public class MascotasVeterinario extends AppCompatActivity {
                 finish();
             }
         });
+        spinnerFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String criterio = adapterView.getItemAtPosition(i).toString();
+                if (adaptador != null) {
+                    adaptador.setCriterioFiltro(criterio);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // No se utiliza
+            }
+        });
         //Inicializa la lista para ver los datos de cada mascota en el layout
         recycler.setLayoutManager(new LinearLayoutManager(this));
         // Instancia y ejecuta la tarea asíncrona para obtener las mascotas
@@ -142,7 +157,7 @@ public class MascotasVeterinario extends AppCompatActivity {
 
         @Override
         protected ArrayList<Mascota> doInBackground(Void... voids) {
-            String url = "http://192.168.0.14/ControlPaw/mascotasVeterinario.php";
+            String url = "http://192.168.1.179/ControlPaw/mascotasVeterinario.php";
             //Conexion a php
             try {
                 URL direccion = new URL(url);
@@ -298,9 +313,9 @@ public class MascotasVeterinario extends AppCompatActivity {
             };
         }
 
-       /* public void setCriterioFiltro(String criterioFiltro) {
+        public void setCriterioFiltro(String criterioFiltro) {
             this.criterioFiltro = criterioFiltro;
-        }*/
+        }
 
         @NonNull
         @Override

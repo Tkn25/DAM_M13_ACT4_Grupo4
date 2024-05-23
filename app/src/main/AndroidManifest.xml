@@ -99,6 +99,9 @@
         <activity
             android:name=".Veterinario.VerCitaVeterinario"
             android:exported="false" />
+        <activity
+            android:name=".Veterinario.MascotasVeterinario"
+            android:exported="false" />
     </application>
 
 </manifest>
