@@ -131,9 +131,12 @@ public class MascotasVeterinario extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Aplicar el filtro cada vez que cambia el texto del SearchView
-                adaptador.getFilter().filter(newText);
-                adaptador.notifyDataSetChanged();
-                return false;
+                if (adaptador != null) {
+                    adaptador.getFilter().filter(newText);
+                    adaptador.notifyDataSetChanged();
+                }
+                    return false;
+
             }
         });
     }
