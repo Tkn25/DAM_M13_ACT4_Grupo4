@@ -87,7 +87,7 @@ public class SeguimientoCliente extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //En caso de que no esten todos los datos rellenos, no se enviaran los datos y saltará un mensaje.
-                if (!nombre.isSelected() || descripcion.getText().toString().isEmpty() || fecha.getText().toString().isEmpty() || enlace.getText().toString().isEmpty()) {
+                if (descripcion.getText().toString().isEmpty() || fecha.getText().toString().isEmpty() || enlace.getText().toString().isEmpty()) {
                     Toast.makeText(SeguimientoCliente.this, "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
                     return;
                 }
