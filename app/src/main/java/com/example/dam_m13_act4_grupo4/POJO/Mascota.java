@@ -3,11 +3,11 @@ package com.example.dam_m13_act4_grupo4.POJO;
 import java.util.Date;
 
 public class Mascota {
-    int id, idPropietario, idEspecie, castrado, idGenero;
-    String nombre,  microchip, fechaNacimiento, raza;
-    boolean enfermedad, baja;
-    float peso;
-    String dni;
+    private int id, idPropietario, idEspecie, castrado, idGenero;
+    private String nombre,  microchip, fechaNacimiento, raza;
+    private boolean enfermedad, baja;
+    private float peso;
+    private String dni;
 
     public Mascota(int id, int idPropietario, int idEspecie, String raza, String nombre, int idGenero, String microchip, int castrado, boolean enfermedad, boolean baja, float peso, String fechaNacimiento) {
         this.id = id;

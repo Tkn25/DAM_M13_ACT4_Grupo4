@@ -86,103 +86,19 @@ public class SaludCliente extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //Obtenemos la lista de mascotas según el cliente
-        new ObtenerMascotasClienteTask().execute(idDueno);
+
+        //Obtenemos los tratamientos asociados al cliente
+        new ObtenerTratamientosTask().execute(idDueno);
     }
 
-    private class ObtenerMascotasClienteTask extends AsyncTask<String, Void, ArrayList<Mascota>> {
-        //Creamos el array donde almacenaremos todos los datos de las mascotas
-        ArrayList<Mascota> mascotasList = new ArrayList<>();
-
-        @Override
-        protected ArrayList<Mascota> doInBackground(String... dueno) {
-            //Ponemos la dirección del .php
-            String url = "http://192.168.0.14/controlpaw/mascotasCliente.php"; //Sustituye por tu IPv4
-
-            try {
-                //Creamos la conexión
-                URL direccion = new URL(url);
-                HttpURLConnection conexion = (HttpURLConnection) direccion.openConnection();
-                conexion.setRequestMethod("POST");
-                conexion.setDoOutput(true);
-
-                //Enviamos la id del dueño como parámetro
-                String parametros = "dueno=" + dueno[0];
-                conexion.getOutputStream().write(parametros.getBytes());
-
-                //Leemos la respuesta de la BD hasta que no haya mas lineas para leer.
-                InputStream entrada = conexion.getInputStream();
-                BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
-                StringBuilder respuesta = new StringBuilder();
-                String linea;
-
-                while ((linea = lector.readLine()) != null) {
-                    respuesta.append(linea);
-                }
-
-                //Convertimos los datos recibidos en un Document
-                Document document = Global.convertirStringToXMLDocument(respuesta.toString());
-                //Obtenemos los elementos de cada mascota
-                NodeList listaMascotas = document.getElementsByTagName("mascota");
-                //Con este bucle conseguimos los datos de cada mascota
-                for (int i = 0; i < listaMascotas.getLength(); i++) {
-                    Element element = (Element) listaMascotas.item(i);
-                    int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
-                    int idDueno = Integer.parseInt(element.getElementsByTagName("idDueno").item(0).getTextContent());
-                    int idEspecie = Integer.parseInt(element.getElementsByTagName("idEspecie").item(0).getTextContent());
-                    String raza = element.getElementsByTagName("raza").item(0).getTextContent();
-                    String nombre = element.getElementsByTagName("nombre").item(0).getTextContent();
-                    int idGenero = Integer.parseInt(element.getElementsByTagName("idGenero").item(0).getTextContent());
-                    String microchip = element.getElementsByTagName("microchip").item(0).getTextContent();
-                    int castrado = Integer.parseInt(element.getElementsByTagName("castrado").item(0).getTextContent());
-                    boolean enfermedad = Boolean.parseBoolean(element.getElementsByTagName("enfermedad").item(0).getTextContent());
-                    boolean baja = Boolean.parseBoolean(element.getElementsByTagName("baja").item(0).getTextContent());
-                    float peso = Float.parseFloat(element.getElementsByTagName("peso").item(0).getTextContent());
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Date fechaNacimiento = dateFormat.parse(element.getElementsByTagName("fecha").item(0).getTextContent());
-                    String fecha = dateFormat.format(fechaNacimiento);
-                    //Creamos un objeto Mascota con los datos obtenidos
-                    Mascota m = new Mascota(id, idDueno, idEspecie, raza, nombre, idGenero, microchip, castrado, enfermedad, baja, peso, fecha);
-                    mascotasList.add(m);
-                }
-                //Cerramos la conexión
-                entrada.close();
-                conexion.disconnect();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return mascotasList;
-        }
-
-        //Cuando se termine de ejecutar...
-        @Override
-        protected void onPostExecute(ArrayList<Mascota> mascotasList) {
-            super.onPostExecute(mascotasList);
-
-            //Actualizamos la interfaz
-            if (mascotasList != null && !mascotasList.isEmpty()) {
-                //Limpiamos la lista actual
-                mascotasCliente.clear();
-                //Agregamos las nuevas mascotas a la lista
-                mascotasCliente.addAll(mascotasList);
-                //Notificamos al adaptador los cambios
-                adaptador.notifyDataSetChanged();
-                //Ahora obtenemos la lista de tratamientos
-                new ObtenerTratamientosTask().execute();
-            } else {
-                //Si hay algún error mostramos un mensaje por pantalla
-                Toast.makeText(getApplicationContext(), "No se ha podido establecer la conexión. Por favor, inténtelo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     //Clase encargada de obtener los datos de los tratamientos en la BBDD a través de un .php
-    private class ObtenerTratamientosTask extends AsyncTask<Void, Void, ArrayList<Tratamiento>> {
+    private class ObtenerTratamientosTask extends AsyncTask<String, Void, ArrayList<Tratamiento>> {
         //Creamos el array donde almacenaremos todos los datos de los tratamientos
         ArrayList<Tratamiento> tratamientosList = new ArrayList<>();
 
         @Override
-        protected ArrayList<Tratamiento> doInBackground(Void... Void) {
+        protected ArrayList<Tratamiento> doInBackground(String... dueno) {
             //Ponemos la dirección del .php
             String url = "http://192.168.0.14/controlpaw/tratamientosCliente.php"; //Sustituye por tu IPv4
 
@@ -193,6 +109,9 @@ public class SaludCliente extends AppCompatActivity {
                 conexion.setRequestMethod("POST");
                 conexion.setDoOutput(true);
 
+                //Enviamos la id del dueño como parámetro
+                String parametros = "idCliente=" + dueno[0];
+                conexion.getOutputStream().write(parametros.getBytes());
 
                 //Leemos la respuesta de la BD hasta que no haya mas lineas para leer.
                 InputStream entrada = conexion.getInputStream();
@@ -212,21 +131,16 @@ public class SaludCliente extends AppCompatActivity {
                 //Con este bucle conseguimos los datos de cada tratamiento
                 for (int i = 0; i < listaConsultas.getLength(); i++) {
                     Element element = (Element) listaConsultas.item(i);
-                    int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
-                    int idMascota = Integer.parseInt(element.getElementsByTagName("idMascota").item(0).getTextContent());
+                    int id = Integer.parseInt(element.getElementsByTagName("idTratamiento").item(0).getTextContent());
+                    String nombreMascota = element.getElementsByTagName("mascota").item(0).getTextContent();
                     String descripcion = element.getElementsByTagName("descripcion").item(0).getTextContent();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date fechaCita = dateFormat.parse(element.getElementsByTagName("fecha").item(0).getTextContent());
                     String fecha = dateFormat.format(fechaCita);
-                    int finalizado = Integer.parseInt(element.getElementsByTagName("finalizado").item(0).getTextContent());
-                    for (Mascota mascota : mascotasCliente) {
-                        if (mascota.getId() == idMascota) {
-                            // Creamos un objeto tratamiento con los datos obtenidos
-                            Tratamiento t = new Tratamiento(id, mascota, descripcion, fecha, finalizado);
-                            tratamientosList.add(t);
-                            break;
-                        }
-                    }
+
+                    //Creamos un objeto tratamiento con los datos obtenidos
+                    Tratamiento t = new Tratamiento(id, descripcion, fecha, nombreMascota);
+                    tratamientosList.add(t);
                 }
                 //Cerramos la conexión
                 entrada.close();
@@ -291,7 +205,7 @@ public class SaludCliente extends AppCompatActivity {
         public void onBindViewHolder(@NonNull AdaptadorTratamientos.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
             //Asignamos el texto con el valor de los tratamientos a los campos
             Tratamiento tratamiento = tratamientos.get(position);
-            holder.mascota.setText(tratamiento.getMascota().getNombre());
+            holder.mascota.setText(String.valueOf(tratamiento.getNombreMascota()));
             holder.descripcion.setText(String.valueOf(tratamiento.getDescripcion()));
             holder.fecha.setText(String.valueOf(tratamiento.getFecha()));
         }

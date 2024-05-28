@@ -1,8 +1,12 @@
 <resources>
-    <string name="app_name">DAM_M13_ACT4_Grupo4</string>
+    <string name="app_name">ControlPaw</string>
     <string-array name="opciones_filtro">
         <item>Nombre</item>
         <item>DNI</item>
+    </string-array>
+    <string-array name="opciones_tipo">
+        <item>Veterinario</item>
+        <item>Cliente</item>
     </string-array>
     <string-array name="opciones_genero">
         <item>Macho</item>

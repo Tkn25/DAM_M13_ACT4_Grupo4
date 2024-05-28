@@ -64,6 +64,7 @@ public class LoginVeterinario extends AppCompatActivity {
                         public void run() {
                             String[] campo = {"username", "password"};
                             String[] datos = {username, password};
+
                             PutData putData = new PutData("http://192.168.0.14/ControlPaw/loginEmpleado.php", "POST", campo, datos);
                             if (putData.startPut())
                             //region Si logramos acceder al PHP

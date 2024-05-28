@@ -43,26 +43,25 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 public class DatosMascotaVet extends AppCompatActivity {
-    private EditText nombre, especie, raza, peso, castrado, fechaNacimiento, microchip;
+    private EditText nombre, raza, peso, fechaNacimiento, microchip;
     private ImageButton volver;
     private Spinner spGenero;
     private Spinner spEspecie;
-    private Spinner spNombre;
-    private Spinner spRaza;
     private Spinner spCastrado;
     private Spinner spEnfermedad;
     private Spinner spBaja;
-    int idMascota;
-    int idGenero;
-    int idEspecie;
-    String nombreMascota;
-    int generoMascota;
-    int especieMascota;
-    String razaMascota;
-    float pesoMascota;
-    int castradoMascota;
-    String fechaMascota;
-    String microchipMascota;
+    private int idMascota;
+    private String nombreMascota;
+    private int generoMascota;
+    private int especieMascota;
+    private String razaMascota;
+    private float pesoMascota;
+    private int castradoMascota;
+    private  String fechaMascota;
+    private String microchipMascota;
+    private boolean enfermedad;
+    private boolean baja;
+
     private String clave;
     ArrayList<Dueno> duenoList = new ArrayList<>();
     Spinner spinnerClientes;
@@ -89,6 +88,7 @@ public class DatosMascotaVet extends AppCompatActivity {
         spBaja = findViewById(R.id.spinner3);
         fechaNacimiento = findViewById(R.id.editTextTextFec);
         microchip = findViewById(R.id.editTextTextMic);
+        //Rellenamos los espiner con su respectiva informacion
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.opciones_genero, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -114,6 +114,7 @@ public class DatosMascotaVet extends AppCompatActivity {
         volver = findViewById(R.id.imageButton6);
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         FloatingActionButton floEliminar = findViewById(R.id.eliminar);
+        //Boton para eliminar una mascota
         floEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +122,7 @@ public class DatosMascotaVet extends AppCompatActivity {
                 eliminar();
             }
         });
+        //Boton para guardar cambios
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,9 +130,11 @@ public class DatosMascotaVet extends AppCompatActivity {
                 guardarCambios();
             }
         });
+        //Boton para volver
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Llamos a la vista mascota veterinario y cerramos esta
                 Intent intent = new Intent(DatosMascotaVet.this, MascotasVeterinario.class);
                 startActivity(intent);
                 finish();
@@ -140,20 +144,18 @@ public class DatosMascotaVet extends AppCompatActivity {
         Intent intent = getIntent();
         clave = intent.getStringExtra("clave");
          idMascota = intent.getIntExtra("idMascota",0);
-        String nombreMascota = intent.getStringExtra("nombre");
-        int generoMascota = intent.getIntExtra("genero", 0);
-        int especieMascota = intent.getIntExtra("especie", 0);
-        String razaMascota = intent.getStringExtra("raza");
-        float pesoMascota = intent.getFloatExtra("peso", 0);
-        int castradoMascota = intent.getIntExtra("castrado", 0);
-        String fechaMascota = intent.getStringExtra("fecha");
-        String microchipMascota = intent.getStringExtra("microchip");
-
+        nombreMascota = intent.getStringExtra("nombre");
+        generoMascota = intent.getIntExtra("genero", 0);
+        especieMascota = intent.getIntExtra("especie", 0);
+        razaMascota = intent.getStringExtra("raza");
+        pesoMascota = intent.getFloatExtra("peso", 0);
+        castradoMascota = intent.getIntExtra("castrado", 0);
+        fechaMascota = intent.getStringExtra("fecha");
+        microchipMascota = intent.getStringExtra("microchip");
         idCliente = intent.getIntExtra("idCliente", -1);
-        boolean enfermedad = Boolean.parseBoolean(intent.getStringExtra("enfermedad"));
-      //  boolean tipo = Boolean.parseBoolean(intent.getStringExtra("tipo"));
-        boolean baja = Boolean.parseBoolean(intent.getStringExtra("baja"));
-       nombre.setText(nombreMascota);
+        enfermedad = Boolean.parseBoolean(intent.getStringExtra("enfermedad"));
+        baja = Boolean.parseBoolean(intent.getStringExtra("baja"));
+        nombre.setText(nombreMascota);
         spGenero.setSelection(generoMascota-1);
         spEspecie.setSelection(especieMascota-1);
         raza.setText(razaMascota);
@@ -179,12 +181,11 @@ public class DatosMascotaVet extends AppCompatActivity {
         new ObtenerClientesTask(idCliente).execute();
     }
     private void guardarCambios() {
-
+        //La clave viene rellena de la pantalla anterior
         new ModificarMascotaTask(clave).execute();
-
-
     }
     private void eliminar() {
+        //Creamos un popup para que el usuario confirme la eliminacion de la mascota
         AlertDialog.Builder builder = new AlertDialog.Builder(DatosMascotaVet.this);
         builder.setMessage("¿Estás seguro de que quieres eliminar esta mascota?")
                 .setCancelable(false)
@@ -197,15 +198,13 @@ public class DatosMascotaVet extends AppCompatActivity {
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-
                     }
                 });
         AlertDialog alert = builder.create();
         alert.show();
-
-
-
     }
+
+    //Metodo para almacenar el objeto dueño seleccionado en el espiner
     private Dueno getDuenoSeleccionado() {
         Spinner spinnerClientes = findViewById(R.id.spinner);
         int position = spinnerClientes.getSelectedItemPosition();
@@ -223,6 +222,7 @@ public class DatosMascotaVet extends AppCompatActivity {
         }
         return null;
     }
+    // Clase para la modificacion de datos de mascota en tabla
     private class ModificarMascotaTask extends AsyncTask<Void, Void, String> {
         String clave;
         String data;
@@ -236,15 +236,8 @@ public class DatosMascotaVet extends AppCompatActivity {
             String url = "http://192.168.1.179/ControlPaw/"+clave+".php";
 
             try {
-/*
-                        data = "idMascota=" + idMascota + "&nombre=" + nombre.getText().toString() + "&idDueno=" + getDuenoSeleccionado().getIdCliente()
-                                + "&idGenero=" + (spGenero.getSelectedItemPosition() + 1) + "&raza=" + raza.getText().toString() + "&idEspecie=" + (spEspecie.getSelectedItemPosition() + 1)
-                                + "&peso=" + peso.getText().toString() + "&castrado=" + (spCastrado.getSelectedItemPosition() + 1) + "&fechaNacimiento=" + fechaNacimiento.getText().toString()
-                                + "&microchip=" + microchip.getText().toString() + "&enfermedad=" + spEnfermedad.getSelectedItemPosition() + "&baja=" + spBaja.getSelectedItemPosition();
 
-
-*/
-            // Recoger los datos de los campos, asignando una cadena vacía si están vacíos
+            // Recoger los datos de los campos, asignando una cadena vacía si están vacíos.
             String nombreStr = nombre.getText().toString().isEmpty() ? "" : nombre.getText().toString();
             String razaStr = raza.getText().toString().isEmpty() ? "" : raza.getText().toString();
             String pesoStr = peso.getText().toString().isEmpty() ? "" : peso.getText().toString();
@@ -264,6 +257,7 @@ public class DatosMascotaVet extends AppCompatActivity {
                     + "&microchip=" + microchipStr
                     + "&enfermedad=" + spEnfermedad.getSelectedItemPosition()
                     + "&baja=" + spBaja.getSelectedItemPosition();
+
                 // Convertir la cadena de datos a bytes
                 byte[] postData = data.getBytes(StandardCharsets.UTF_8);
 
@@ -299,12 +293,14 @@ public class DatosMascotaVet extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String resultado) {
+            // Si la consulta no devuelve fallos mostraremos un toast indicando que ha ido bien
             Toast.makeText(DatosMascotaVet.this, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(DatosMascotaVet.this, MascotasVeterinario.class);
             startActivity(intent);
             finish();
         }
     }
+    // Clase para rellenar el epinner de clientes
     private class ObtenerClientesTask extends AsyncTask<Void, Void, ArrayList<Dueno>> {
         int idCli;
     public ObtenerClientesTask(int idCli)
@@ -338,52 +334,41 @@ public class DatosMascotaVet extends AppCompatActivity {
                 for (int i = 0; i < listaDueño.getLength(); i++) {
                     Element element = (Element) listaDueño.item(i);
                     int id = Integer.parseInt(element.getElementsByTagName("idCliente").item(0).getTextContent());
-                   // int tipo = Integer.parseInt(element.getElementsByTagName("tipo").item(0).getTextContent());
-                   // int usuario = Integer.parseInt(element.getElementsByTagName("usuario").item(0).getTextContent());
-                   // String contraseña = element.getElementsByTagName("contraseña").item(0).getTextContent();
-                   // String dni = element.getElementsByTagName("DNI").item(0).getTextContent();
                     String nombre = element.getElementsByTagName("nombre").item(0).getTextContent();
-                   // String telefono = element.getElementsByTagName("telefono").item(0).getTextContent();
-                   // String dir = element.getElementsByTagName("direccion").item(0).getTextContent();
-
                     Dueno d = new Dueno(id, nombre);
                     duenoList.add(d);
                 }
-
-
                 entrada.close();
                 conexion.disconnect();
 
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
             return duenoList;
         }
-
         @Override
         protected void onPostExecute(ArrayList<Dueno> duenoList) {
             super.onPostExecute(duenoList);
-            // Poblar el Spinner con la lista de dueños
+
+            // Rellenar el Spinner con la lista de dueños
             spinnerClientes = findViewById(R.id.spinner);
             ArrayAdapter<Dueno> adapter = new ArrayAdapter<>(DatosMascotaVet.this, android.R.layout.simple_spinner_item, duenoList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerClientes.setAdapter(adapter);
 
             // Configurar el listener del Spinner
-            spinnerClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           /* spinnerClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                     // Obtener el cliente seleccionado
                     Dueno clienteSeleccionado = (Dueno) parentView.getItemAtPosition(position);
 
                 }
-
                 @Override
                 public void onNothingSelected(AdapterView<?> parentView) {
-                    // No se seleccionó ningún cliente
                 }
-            });
+            });*/
+            // Obtener el cliente seleccionado
             if(this.idCli == -1)
             {
                 this.idCli = 1;

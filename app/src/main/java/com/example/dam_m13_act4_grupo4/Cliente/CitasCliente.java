@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dam_m13_act4_grupo4.POJO.Cita;
 import com.example.dam_m13_act4_grupo4.POJO.Global;
-import com.example.dam_m13_act4_grupo4.POJO.Mascota;
 import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
@@ -42,7 +41,6 @@ public class CitasCliente extends AppCompatActivity {
     private ImageButton volver;
     private RecyclerView lista;
     private final ArrayList<Cita> citas = new ArrayList<>();
-    private final ArrayList<Mascota> mascotasCliente = new ArrayList<>();
     private AdaptadorCitas adaptador;
     private static String idDueno;
     @Override
@@ -77,19 +75,17 @@ public class CitasCliente extends AppCompatActivity {
         });
 
         //Obtenemos las citas a partir del cliente
-        new ObtenerMascotasTask().execute(idDueno);
+        new ObtenerCitasTask().execute(idDueno);
 
     }
 
-    //Clase encargada de obtener los datos de las mascotas en la BBDD a través de un .php
-    private class ObtenerMascotasTask extends AsyncTask<String, Void, ArrayList<Mascota>> {
-        //Creamos el array donde almacenaremos todos los datos de las mascotas
-        ArrayList<Mascota> mascotasList = new ArrayList<>();
+    //Clase encargada de obtener los datos de las citas en la BBDD a través de un .php
+    private class ObtenerCitasTask extends AsyncTask<String, Void, ArrayList<Cita>> {
+        ArrayList<Cita> citasList = new ArrayList<>();
 
         @Override
-        protected ArrayList<Mascota> doInBackground(String... dueno) {
-            //Ponemos la dirección del .php
-            String url = "http://192.168.0.14/controlpaw/mascotasCliente.php"; //Sustituye por tu IPv4
+        protected ArrayList<Cita> doInBackground(String... dueno) {
+            String url = "http://192.168.0.14/controlpaw/citasMascotaCliente.php"; // Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión
@@ -99,7 +95,7 @@ public class CitasCliente extends AppCompatActivity {
                 conexion.setDoOutput(true);
 
                 //Enviamos la id del dueño como parámetro
-                String parametros = "dueno=" + dueno[0];
+                String parametros = "idCliente=" + dueno[0];
                 conexion.getOutputStream().write(parametros.getBytes());
 
                 //Leemos la respuesta de la BD hasta que no haya mas lineas para leer.
@@ -114,114 +110,21 @@ public class CitasCliente extends AppCompatActivity {
 
                 //Convertimos los datos recibidos en un Document
                 Document document = Global.convertirStringToXMLDocument(respuesta.toString());
-                //Obtenemos los elementos de cada mascota
-                NodeList listaMascotas = document.getElementsByTagName("mascota");
-                //Con este bucle conseguimos los datos de cada mascota
-                for (int i = 0; i < listaMascotas.getLength(); i++) {
-                    Element element = (Element) listaMascotas.item(i);
-                    int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
-                    int idDueno = Integer.parseInt(element.getElementsByTagName("idDueno").item(0).getTextContent());
-                    int idEspecie = Integer.parseInt(element.getElementsByTagName("idEspecie").item(0).getTextContent());
-                    String raza = element.getElementsByTagName("raza").item(0).getTextContent();
-                    String nombre = element.getElementsByTagName("nombre").item(0).getTextContent();
-                    int idGenero = Integer.parseInt(element.getElementsByTagName("idGenero").item(0).getTextContent());
-                    String microchip = element.getElementsByTagName("microchip").item(0).getTextContent();
-                    int castrado = Integer.parseInt(element.getElementsByTagName("castrado").item(0).getTextContent());
-                    boolean enfermedad = Boolean.parseBoolean(element.getElementsByTagName("enfermedad").item(0).getTextContent());
-                    boolean baja = Boolean.parseBoolean(element.getElementsByTagName("baja").item(0).getTextContent());
-                    float peso = Float.parseFloat(element.getElementsByTagName("peso").item(0).getTextContent());
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Date fechaNacimiento = dateFormat.parse(element.getElementsByTagName("fecha").item(0).getTextContent());
-                    String fecha = dateFormat.format(fechaNacimiento);
-                    //Creamos un objeto Mascota con los datos obtenidos
-                    Mascota m = new Mascota(id, idDueno, idEspecie, raza, nombre, idGenero, microchip, castrado, enfermedad, baja, peso, fecha);
-                    mascotasList.add(m);
-                }
-                //Cerramos la conexión
-                entrada.close();
-                conexion.disconnect();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return mascotasList;
-        }
-
-        //Cuando se termine de ejecutar...
-        @Override
-        protected void onPostExecute(ArrayList<Mascota> mascotasList) {
-            super.onPostExecute(mascotasList);
-
-            //Actualizamos la interfaz
-            if (mascotasList != null && !mascotasList.isEmpty()) {
-                //Limpiamos la lista actual
-                mascotasCliente.clear();
-                //Agregamos las nuevas mascotas a la lista
-                mascotasCliente.addAll(mascotasList);
-                //Notificamos al adaptador los cambios
-                adaptador.notifyDataSetChanged();
-                //Ahora obtenemos las citas
-                new ObtenerCitasTask().execute();
-            } else {
-                //Si hay algún error mostramos un mensaje por pantalla
-                Toast.makeText(getApplicationContext(), "No se ha podido establecer la conexión. Por favor, inténtelo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    //Clase encargada de obtener los datos de las citas en la BBDD a través de un .php
-    private class ObtenerCitasTask extends AsyncTask<Void, Void, ArrayList<Cita>> {
-        //Creamos el array donde almacenaremos todos los datos de las citas
-        ArrayList<Cita> citasList = new ArrayList<>();
-
-        @Override
-        protected ArrayList<Cita> doInBackground(Void... Void) {
-            //Ponemos la dirección del .php
-            String url = "http://192.168.0.14/controlpaw/citasCliente.php"; //Sustituye por tu IPv4
-
-            try {
-                //Creamos la conexión
-                URL direccion = new URL(url);
-                HttpURLConnection conexion = (HttpURLConnection) direccion.openConnection();
-                conexion.setRequestMethod("POST");
-                conexion.setDoOutput(true);
-
-
-                //Leemos la respuesta de la BD hasta que no haya mas lineas para leer.
-                InputStream entrada = conexion.getInputStream();
-                BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
-                StringBuilder respuesta = new StringBuilder();
-                String linea;
-
-                while ((linea = lector.readLine()) != null) {
-                    respuesta.append(linea);
-                }
-
-
-                //Convertimos los datos recibidos en un Document
-                Document document = Global.convertirStringToXMLDocument(respuesta.toString());
 
                 //Obtenemos los elementos de cada consulta
                 NodeList listaConsultas = document.getElementsByTagName("consulta");
-                //Con este bucle conseguimos los datos de cada consulta
                 for (int i = 0; i < listaConsultas.getLength(); i++) {
                     Element element = (Element) listaConsultas.item(i);
-                    int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
-                    String motivo = element.getElementsByTagName("titulo").item(0).getTextContent();
-                    int idMascota = Integer.parseInt(element.getElementsByTagName("idMascota").item(0).getTextContent());
+                    String mascotaNombre = element.getElementsByTagName("mascota").item(0).getTextContent();
+                    String motivo = element.getElementsByTagName("motivo").item(0).getTextContent();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date fechaCita = dateFormat.parse(element.getElementsByTagName("fecha").item(0).getTextContent());
                     String fecha = dateFormat.format(fechaCita);
-                    //Recorremos las mascotas del usuario para solamente mostrar las citas asociadas a esas mascotas.
-                    for (Mascota mascota : mascotasCliente) {
-                        //Comprobamos que su ID coincida
-                        if (mascota.getId() == idMascota) {
-                            //Creamos un objeto cita con los datos obtenidos
-                            Cita c = new Cita(id, motivo, mascota, fecha);
-                            //Añadimos el objeto a la lista de citas
-                            citasList.add(c);
-                            break; //Salimos del bucle
-                        }
-                    }
+
+                    //Creamos un objeto cita con los datos obtenidos
+                    Cita c = new Cita(motivo, fecha, mascotaNombre);
+                    citasList.add(c);
+
                 }
                 //Cerramos la conexión
                 entrada.close();
@@ -232,20 +135,14 @@ public class CitasCliente extends AppCompatActivity {
             return citasList;
         }
 
-        //Cuando se termine de ejecutar...
         @Override
         protected void onPostExecute(ArrayList<Cita> citasList) {
             super.onPostExecute(citasList);
-            //Comprobamos que se han recibido datos
             if (citasList != null && !citasList.isEmpty()) {
-                //Limpiamos la lista para evitar errores
                 citas.clear();
-                //Agregamos las citas encontradas a la lista de citas
                 citas.addAll(citasList);
-                //Notificamos los cambios al adaptador
                 adaptador.notifyDataSetChanged();
             } else {
-                //Si hay algun error mostramos un mensaje
                 Toast.makeText(getApplicationContext(), "No se ha podido establecer la conexión. Por favor, inténtelo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
             }
         }
@@ -286,7 +183,7 @@ public class CitasCliente extends AppCompatActivity {
         public void onBindViewHolder(@NonNull AdaptadorCitas.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
             //Asignamos el texto con el valor de las citas a los campos
             Cita cita = citas.get(position);
-            holder.mascota.setText(cita.getMascota().getNombre());
+            holder.mascota.setText(String.valueOf(cita.getNombreMascota()));
             holder.motivo.setText(String.valueOf(cita.getMotivo()));
             holder.fecha.setText(String.valueOf(cita.getFecha()));
         }
