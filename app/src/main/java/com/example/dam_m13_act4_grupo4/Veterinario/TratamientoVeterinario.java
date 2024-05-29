@@ -216,7 +216,7 @@ public class TratamientoVeterinario extends AppCompatActivity
     }
     //endregion
 
-    //region Clase encargada de obtener los datos de las mascotas en la DB a través de un PH
+    //region Clase encargada de obtener los datos de las mascotas en la DB a través de un PHP
     private class ObtenerMascotasTask extends AsyncTask<String, Void, ArrayList<Mascota>>
     {
         ArrayList<Mascota> mascotasList = new ArrayList<>();
