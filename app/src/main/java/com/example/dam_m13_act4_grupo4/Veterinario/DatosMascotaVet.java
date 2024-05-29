@@ -143,6 +143,9 @@ public class DatosMascotaVet extends AppCompatActivity {
         //Recibimos el intent de la actividad anterior con los datos de la BBDD.
         Intent intent = getIntent();
         clave = intent.getStringExtra("clave");
+        if ("insertarMascota".equals(clave)) {
+            floEliminar.setVisibility(View.GONE);  // Oculta el botón
+        }
          idMascota = intent.getIntExtra("idMascota",0);
         nombreMascota = intent.getStringExtra("nombre");
         generoMascota = intent.getIntExtra("genero", 0);
