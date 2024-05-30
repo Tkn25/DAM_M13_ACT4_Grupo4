@@ -90,7 +90,7 @@ public class SeguimientoVeterinario extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                if (descripcion.getText().toString().isEmpty() || fecha.getText().toString().isEmpty() || enlace.getText().toString().isEmpty())
+                if (descripcion.getText().toString().isEmpty() || fecha.getText().toString().isEmpty())
                 //region En caso de haber campos vacios
                 {
                     Toast.makeText(SeguimientoVeterinario.this, "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
