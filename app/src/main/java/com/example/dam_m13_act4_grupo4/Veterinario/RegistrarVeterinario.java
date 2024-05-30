@@ -23,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class RegistrarVeterinario extends AppCompatActivity {
 
-    private EditText editTextId, editTextNombre, editTextDNI, editTextTelefono, editTextDireccion, editTextEmail, editTextPass;
+    private EditText editTextNombre, editTextDNI, editTextTelefono, editTextDireccion, editTextEmail, editTextPass;
     private Button buttonInsertarCliente;
     private ImageButton volver;
 
@@ -43,7 +43,6 @@ public class RegistrarVeterinario extends AppCompatActivity {
 
         //region Enlazamos variables con elementos de layout
         volver = findViewById(R.id.ButtonVolverInsertarCliente);
-        editTextId = findViewById(R.id.editTextIdInsertarCliente);
         editTextNombre = findViewById(R.id.editTextNombreInsertarCliente);
         editTextDNI = findViewById(R.id.editTextDNIInsertarCliente);
         editTextTelefono = findViewById(R.id.editTextTelefonoInsertarCliente);
@@ -59,7 +58,6 @@ public class RegistrarVeterinario extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                String id = editTextId.getText().toString();
                 String nombre = editTextNombre.getText().toString();
                 String dni = editTextDNI.getText().toString();
                 String telefono = editTextTelefono.getText().toString();
@@ -67,14 +65,14 @@ public class RegistrarVeterinario extends AppCompatActivity {
                 String email = editTextEmail.getText().toString();
                 String pass = editTextPass.getText().toString();
 
-                if (!id.isEmpty() && !nombre.isEmpty() && !dni.isEmpty() && !telefono.isEmpty() && !direccion.isEmpty() && !email.isEmpty() && !pass.isEmpty())
+                if (!nombre.isEmpty() && !dni.isEmpty() && !telefono.isEmpty() && !direccion.isEmpty() && !email.isEmpty() && !pass.isEmpty())
                 //region En caso de no haber campos vacios
                 {
                     String hashPass = hashSHA256(pass);
 
                     //region Enviar datos al PHP
-                    String[] field = {"idCliente", "tipo", "usuario", "pass", "DNI", "nombre", "telefono", "direccion"};
-                    String[] data = {id, "2", email, hashPass, dni, nombre, telefono, direccion};
+                    String[] field = {"tipo", "usuario", "pass", "DNI", "nombre", "telefono", "direccion"};
+                    String[] data = {"2", email, hashPass, dni, nombre, telefono, direccion};
                     PutData putData = new PutData("http://192.168.0.14/ControlPaw/registrarCliente.php", "POST", field, data);
                     //endregion
 
