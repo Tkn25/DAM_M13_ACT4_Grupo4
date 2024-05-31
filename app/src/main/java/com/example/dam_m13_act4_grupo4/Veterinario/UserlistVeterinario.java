@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,7 +61,7 @@ public class UserlistVeterinario extends AppCompatActivity
         adapter = new ClienteAdapter(clienteList);
         recyclerView.setAdapter(adapter);
 
-        new FetchDataTask().execute("http://192.168.1.143/controlpaw/verUserlist.php");
+        new FetchDataTask().execute("http://192.168.0.14/controlpaw/verUserlist.php");
 
         //region Listener del botón para volver al menú principal de veterinario
         volver.setOnClickListener(new View.OnClickListener()
@@ -133,9 +134,16 @@ public class UserlistVeterinario extends AppCompatActivity
         protected void onPostExecute(List<Dueno> clientes)
         {
             super.onPostExecute(clientes);
-            clienteList.clear();
-            clienteList.addAll(clientes);
-            adapter.notifyDataSetChanged();
+            if (clienteList != null && !clienteList.isEmpty())
+            {
+                clienteList.clear();
+                clienteList.addAll(clientes);
+                adapter.notifyDataSetChanged();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "No se ha podido establecer la conexión. Por favor, inténtelo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

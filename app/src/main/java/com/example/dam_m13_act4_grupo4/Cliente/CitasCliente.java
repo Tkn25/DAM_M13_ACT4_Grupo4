@@ -85,7 +85,7 @@ public class CitasCliente extends AppCompatActivity {
 
         @Override
         protected ArrayList<Cita> doInBackground(String... dueno) {
-            String url = "http://192.168.1.143/controlpaw/citasMascotaCliente.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.0.14/controlpaw/citasMascotaCliente.php"; // Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión

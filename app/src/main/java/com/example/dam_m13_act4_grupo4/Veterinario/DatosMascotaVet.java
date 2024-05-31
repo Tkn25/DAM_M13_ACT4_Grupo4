@@ -235,7 +235,7 @@ public class DatosMascotaVet extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... voids) {
             String resultado = "";
-            String url = "http://192.168.1.143/ControlPaw/"+clave+".php";
+            String url = "http://192.168.0.14/ControlPaw/"+clave+".php";
 
             try {
 
@@ -311,7 +311,7 @@ public class DatosMascotaVet extends AppCompatActivity {
     }
         @Override
         protected ArrayList<Dueno> doInBackground(Void... voids) {
-            String url = "http://192.168.1.143/ControlPaw/Clientes.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.0.14/ControlPaw/Clientes.php"; //Sustituye por tu IPv4
 
             try {
                 URL direccion = new URL(url);

@@ -163,7 +163,7 @@ public class InsertarCitaVeterinario extends AppCompatActivity {
             try
             {
                 //region Escribimos la dirección del .php
-                String url = "http://192.168.1.143/ControlPaw/insertarConsulta.php"; //Sustituye por tu IPv4
+                String url = "http://192.168.0.14/ControlPaw/insertarConsulta.php"; //Sustituye por tu IPv4
                 Log.d("Motivo", consultas[0].getMotivo());
                 Log.d("ID Mascota", String.valueOf(consultas[0].getMascota().getId()));
                 //endregion
@@ -255,7 +255,7 @@ public class InsertarCitaVeterinario extends AppCompatActivity {
         @Override
         protected ArrayList<Mascota> doInBackground(String... dueno)
         {
-            String url = "http://192.168.1.143/controlpaw/saludMascotasVeterinario.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.0.14/controlpaw/saludMascotasVeterinario.php"; // Sustituye por tu IPv4
 
             try
             {

@@ -100,7 +100,7 @@ public class SaludCliente extends AppCompatActivity {
         @Override
         protected ArrayList<Tratamiento> doInBackground(String... dueno) {
             //Ponemos la dirección del .php
-            String url = "http://192.168.1.143/controlpaw/tratamientosCliente.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.0.14/controlpaw/tratamientosCliente.php"; //Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión
