@@ -120,7 +120,7 @@ public class SeguimientoCliente extends AppCompatActivity {
 
             try {
                 //Escribimos la dirección del .php
-                String url = "http://192.168.0.14/controlpaw/seguimientoCliente.php"; //Sustituye por tu IPv4
+                String url = "http://192.168.1.143/controlpaw/seguimientoCliente.php"; //Sustituye por tu IPv4
 
                 //Guardamos los parametros
                 String parametros = "&idMascota=" + seguimiento[0].getIdMascota() +
@@ -194,7 +194,7 @@ public class SeguimientoCliente extends AppCompatActivity {
         @Override
         protected ArrayList<Mascota> doInBackground(String... dueno) {
             //Ponemos la dirección del .php
-            String url = "http://192.168.0.14/controlpaw/mascotasCliente.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.1.143/controlpaw/mascotasCliente.php"; //Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión

@@ -62,7 +62,7 @@ public class LoginCliente extends AppCompatActivity {
                         public void run() {
                             String[] campo = {"username", "password"};
                             String[] datos = {username, password};
-                            PutData putData = new PutData("http://192.168.0.14/ControlPaw/loginCliente.php", "POST", campo, datos);
+                            PutData putData = new PutData("http://192.168.1.143/ControlPaw/loginCliente.php", "POST", campo, datos);
                             if (putData.startPut())
                             //region Si logramos acceder al PHP
                             {

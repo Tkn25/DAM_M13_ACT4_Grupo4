@@ -131,7 +131,7 @@ public class ClienteMascota extends AppCompatActivity {
         @Override
         protected ArrayList<Dueno> doInBackground(Void... voids) {
             //Ponemos la dirección del .php
-            String url = "http://192.168.0.14/ControlPaw/visualizarCliente.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.1.143/ControlPaw/visualizarCliente.php"; //Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión

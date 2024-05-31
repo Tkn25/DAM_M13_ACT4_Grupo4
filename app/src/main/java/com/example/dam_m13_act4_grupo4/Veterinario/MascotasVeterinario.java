@@ -144,7 +144,7 @@ public class MascotasVeterinario extends AppCompatActivity {
 
         @Override
         protected ArrayList<Mascota> doInBackground(Void... voids) {
-            String url = "http://192.168.0.14/ControlPaw/mascotasVeterinario.php";
+            String url = "http://192.168.1.143/ControlPaw/mascotasVeterinario.php";
             //Conexion a php
             try {
                 URL direccion = new URL(url);
@@ -197,10 +197,13 @@ public class MascotasVeterinario extends AppCompatActivity {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                mascotasList = null;
 
             }
-            //Buscamos el ultimo registro y nos guardamos su ID para posteriormente insertar una nueva mascota y ponerle el ultimo ID +1
-            ultimoId = mascotasList.get(mascotasList.size() - 1).getId();
+            if (mascotasList != null){
+                //Buscamos el ultimo registro y nos guardamos su ID para posteriormente insertar una nueva mascota y ponerle el ultimo ID +1
+                ultimoId = mascotasList.get(mascotasList.size() - 1).getId();
+            }
             return mascotasList;
         }
 

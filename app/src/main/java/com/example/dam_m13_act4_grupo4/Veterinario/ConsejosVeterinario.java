@@ -93,7 +93,7 @@ public class ConsejosVeterinario extends AppCompatActivity {
         @Override
         protected ArrayList<Consejo> doInBackground(Void... voids) {
             //Ponemos la dirección del .php
-            String url = "http://192.168.0.14/controlpaw/consejosLista.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.1.143/controlpaw/consejosLista.php"; //Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión

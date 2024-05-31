@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -19,27 +20,26 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.dam_m13_act4_grupo4.Cliente.SeguimientoCliente;
 import com.example.dam_m13_act4_grupo4.POJO.Dueno;
+import com.example.dam_m13_act4_grupo4.POJO.Global;
 import com.example.dam_m13_act4_grupo4.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class DatosMascotaVet extends AppCompatActivity {
     private EditText nombre, raza, peso, fechaNacimiento, microchip;
@@ -56,7 +56,7 @@ public class DatosMascotaVet extends AppCompatActivity {
     private String razaMascota;
     private float pesoMascota;
     private int castradoMascota;
-    private  String fechaMascota;
+    private String fechaMascota;
     private String microchipMascota;
     private boolean enfermedad;
     private boolean baja;
@@ -66,6 +66,7 @@ public class DatosMascotaVet extends AppCompatActivity {
     Spinner spinnerClientes;
 
     int idCliente;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +146,7 @@ public class DatosMascotaVet extends AppCompatActivity {
         if ("insertarMascota".equals(clave)) {
             floEliminar.setVisibility(View.GONE);  // Oculta el botón
         }
-         idMascota = intent.getIntExtra("idMascota",0);
+        idMascota = intent.getIntExtra("idMascota", 0);
         nombreMascota = intent.getStringExtra("nombre");
         generoMascota = intent.getIntExtra("genero", 0);
         especieMascota = intent.getIntExtra("especie", 0);
@@ -158,23 +159,19 @@ public class DatosMascotaVet extends AppCompatActivity {
         enfermedad = Boolean.parseBoolean(intent.getStringExtra("enfermedad"));
         baja = Boolean.parseBoolean(intent.getStringExtra("baja"));
         nombre.setText(nombreMascota);
-        spGenero.setSelection(generoMascota-1);
-        spEspecie.setSelection(especieMascota-1);
+        spGenero.setSelection(generoMascota - 1);
+        spEspecie.setSelection(especieMascota - 1);
         raza.setText(razaMascota);
         peso.setText(String.valueOf(pesoMascota));
-        spCastrado.setSelection(castradoMascota-1);
-         if (enfermedad == true)
-         {
-             spEnfermedad.setSelection(1);
-         }
-         else {
-             spEnfermedad.setSelection(0);
-         }
-        if (baja == true)
-        {
-            spBaja.setSelection(1);
+        spCastrado.setSelection(castradoMascota - 1);
+        if (enfermedad == true) {
+            spEnfermedad.setSelection(1);
+        } else {
+            spEnfermedad.setSelection(0);
         }
-        else {
+        if (baja == true) {
+            spBaja.setSelection(1);
+        } else {
             spBaja.setSelection(0);
         }
 
@@ -182,10 +179,12 @@ public class DatosMascotaVet extends AppCompatActivity {
         microchip.setText(microchipMascota);
         new ObtenerClientesTask(idCliente).execute();
     }
+
     private void guardarCambios() {
         //La clave viene rellena de la pantalla anterior
         new ModificarMascotaTask(clave).execute();
     }
+
     private void eliminar() {
         //Creamos un popup para que el usuario confirme la eliminacion de la mascota
         AlertDialog.Builder builder = new AlertDialog.Builder(DatosMascotaVet.this);
@@ -212,53 +211,50 @@ public class DatosMascotaVet extends AppCompatActivity {
         int position = spinnerClientes.getSelectedItemPosition();
         return duenoList.get(position);
     }
-    public static Document convertirStringToXMLDocument(String xmlString) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        try {
-            builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
-            return doc;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
     // Clase para la modificacion de datos de mascota en tabla
     private class ModificarMascotaTask extends AsyncTask<Void, Void, String> {
         String clave;
         String data;
-        public ModificarMascotaTask(String clave)
-        {
+
+        public ModificarMascotaTask(String clave) {
             this.clave = clave;
         }
+
         @Override
         protected String doInBackground(Void... voids) {
             String resultado = "";
-            String url = "http://192.168.0.14/ControlPaw/"+clave+".php";
+            String url = "http://192.168.1.143/ControlPaw/" + clave + ".php";
 
             try {
+                // Recoger los datos de los campos, asignando una cadena vacía si están vacíos.
+                String nombreStr = nombre.getText().toString();
+                String razaStr = raza.getText().toString();
+                String pesoStr = peso.getText().toString();
+                String fechaNacimientoStr = fechaNacimiento.getText().toString();
+                String microchipStr = microchip.getText().toString();
 
-            // Recoger los datos de los campos, asignando una cadena vacía si están vacíos.
-            String nombreStr = nombre.getText().toString().isEmpty() ? "" : nombre.getText().toString();
-            String razaStr = raza.getText().toString().isEmpty() ? "" : raza.getText().toString();
-            String pesoStr = peso.getText().toString().isEmpty() ? "" : peso.getText().toString();
-            String fechaNacimientoStr = fechaNacimiento.getText().toString().isEmpty() ? "" : fechaNacimiento.getText().toString();
-            String microchipStr = microchip.getText().toString().isEmpty() ? "" : microchip.getText().toString();
+                // Verificar si todos los campos están llenos
+                if (nombreStr.isEmpty() || razaStr.isEmpty() || pesoStr.isEmpty() || fechaNacimientoStr.isEmpty()) {
+                    return "Error campos";
+                }
+                if (!fechaNacimientoStr.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                    return "Error fecha";
+                }
 
-            // Construir la cadena de datos
-            data = "idMascota=" + idMascota
-                    + "&nombre=" + nombreStr
-                    + "&idDueno=" + getDuenoSeleccionado().getIdCliente()
-                    + "&idGenero=" + (spGenero.getSelectedItemPosition() + 1)
-                    + "&raza=" + razaStr
-                    + "&idEspecie=" + (spEspecie.getSelectedItemPosition() + 1)
-                    + "&peso=" + pesoStr
-                    + "&castrado=" + (spCastrado.getSelectedItemPosition() + 1)
-                    + "&fechaNacimiento=" + fechaNacimientoStr
-                    + "&microchip=" + microchipStr
-                    + "&enfermedad=" + spEnfermedad.getSelectedItemPosition()
-                    + "&baja=" + spBaja.getSelectedItemPosition();
+                // Construir la cadena de datos
+                data = "idMascota=" + idMascota
+                        + "&nombre=" + nombreStr
+                        + "&idDueno=" + getDuenoSeleccionado().getIdCliente()
+                        + "&idGenero=" + (spGenero.getSelectedItemPosition() + 1)
+                        + "&raza=" + razaStr
+                        + "&idEspecie=" + (spEspecie.getSelectedItemPosition() + 1)
+                        + "&peso=" + pesoStr
+                        + "&castrado=" + (spCastrado.getSelectedItemPosition() + 1)
+                        + "&fechaNacimiento=" + fechaNacimientoStr
+                        + "&microchip=" + microchipStr
+                        + "&enfermedad=" + spEnfermedad.getSelectedItemPosition()
+                        + "&baja=" + spBaja.getSelectedItemPosition();
 
                 // Convertir la cadena de datos a bytes
                 byte[] postData = data.getBytes(StandardCharsets.UTF_8);
@@ -288,6 +284,7 @@ public class DatosMascotaVet extends AppCompatActivity {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                resultado = "Error conexion";
             }
 
             return resultado;
@@ -295,70 +292,82 @@ public class DatosMascotaVet extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String resultado) {
-            // Si la consulta no devuelve fallos mostraremos un toast indicando que ha ido bien
-            Toast.makeText(DatosMascotaVet.this, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(DatosMascotaVet.this, MascotasVeterinario.class);
-            startActivity(intent);
-            finish();
-        }
-    }
-    // Clase para rellenar el epinner de clientes
-    private class ObtenerClientesTask extends AsyncTask<Void, Void, ArrayList<Dueno>> {
-        int idCli;
-    public ObtenerClientesTask(int idCli)
-    {
-        this.idCli = idCli;
-    }
-        @Override
-        protected ArrayList<Dueno> doInBackground(Void... voids) {
-            String url = "http://192.168.0.14/ControlPaw/Clientes.php"; //Sustituye por tu IPv4
-
-            try {
-                URL direccion = new URL(url);
-                HttpURLConnection conexion = (HttpURLConnection) direccion.openConnection();
-                conexion.setRequestMethod("POST");
-                conexion.setDoOutput(true);
-
-                InputStream entrada = conexion.getInputStream();
-                BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
-                StringBuilder respuesta = new StringBuilder();
-                String linea;
-
-                while ((linea = lector.readLine()) != null) {
-                    respuesta.append(linea);
-                }
-
-
-                Document document = convertirStringToXMLDocument(respuesta.toString());
-
-                NodeList listaDueño = document.getElementsByTagName("cliente");
-
-                for (int i = 0; i < listaDueño.getLength(); i++) {
-                    Element element = (Element) listaDueño.item(i);
-                    int id = Integer.parseInt(element.getElementsByTagName("idCliente").item(0).getTextContent());
-                    String nombre = element.getElementsByTagName("nombre").item(0).getTextContent();
-                    Dueno d = new Dueno(id, nombre);
-                    duenoList.add(d);
-                }
-                entrada.close();
-                conexion.disconnect();
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            // En caso de que los campos no esten llenos
+            if (resultado.equals("Error campos")) {
+                Toast.makeText(DatosMascotaVet.this, "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
+            } else if (resultado.equals("Error fecha")) {
+                Toast.makeText(DatosMascotaVet.this, "La fecha debe tener formato YYYY-mm-dd", Toast.LENGTH_SHORT).show();
+            } else if (resultado.equals("Error conexion")){
+                Toast.makeText(getApplicationContext(), "No se ha podido establecer la conexión. Por favor, inténtelo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
+            } else {
+                // Si la consulta no devuelve fallos mostraremos un toast indicando que ha ido bien
+                Toast.makeText(getApplicationContext(), "Datos guardados correctamente.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(DatosMascotaVet.this, MascotasVeterinario.class);
+                startActivity(intent);
+                finish();
             }
-            return duenoList;
         }
-        @Override
-        protected void onPostExecute(ArrayList<Dueno> duenoList) {
-            super.onPostExecute(duenoList);
+    }
 
-            // Rellenar el Spinner con la lista de dueños
-            spinnerClientes = findViewById(R.id.spinner);
-            ArrayAdapter<Dueno> adapter = new ArrayAdapter<>(DatosMascotaVet.this, android.R.layout.simple_spinner_item, duenoList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinnerClientes.setAdapter(adapter);
+        // Clase para rellenar el epinner de clientes
+        private class ObtenerClientesTask extends AsyncTask<Void, Void, ArrayList<Dueno>> {
+            int idCli;
 
-            // Configurar el listener del Spinner
+            public ObtenerClientesTask(int idCli) {
+                this.idCli = idCli;
+            }
+
+            @Override
+            protected ArrayList<Dueno> doInBackground(Void... voids) {
+                String url = "http://192.168.1.143/ControlPaw/Clientes.php"; //Sustituye por tu IPv4
+
+                try {
+                    URL direccion = new URL(url);
+                    HttpURLConnection conexion = (HttpURLConnection) direccion.openConnection();
+                    conexion.setRequestMethod("POST");
+                    conexion.setDoOutput(true);
+
+                    InputStream entrada = conexion.getInputStream();
+                    BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
+                    StringBuilder respuesta = new StringBuilder();
+                    String linea;
+
+                    while ((linea = lector.readLine()) != null) {
+                        respuesta.append(linea);
+                    }
+
+
+                    Document document = Global.convertirStringToXMLDocument(respuesta.toString());
+
+                    NodeList listaDueño = document.getElementsByTagName("cliente");
+
+                    for (int i = 0; i < listaDueño.getLength(); i++) {
+                        Element element = (Element) listaDueño.item(i);
+                        int id = Integer.parseInt(element.getElementsByTagName("idCliente").item(0).getTextContent());
+                        String nombre = element.getElementsByTagName("nombre").item(0).getTextContent();
+                        Dueno d = new Dueno(id, nombre);
+                        duenoList.add(d);
+                    }
+                    entrada.close();
+                    conexion.disconnect();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return duenoList;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<Dueno> duenoList) {
+                super.onPostExecute(duenoList);
+
+                // Rellenar el Spinner con la lista de dueños
+                spinnerClientes = findViewById(R.id.spinner);
+                ArrayAdapter<Dueno> adapter = new ArrayAdapter<>(DatosMascotaVet.this, android.R.layout.simple_spinner_item, duenoList);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerClientes.setAdapter(adapter);
+
+                // Configurar el listener del Spinner
            /* spinnerClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -370,18 +379,16 @@ public class DatosMascotaVet extends AppCompatActivity {
                 public void onNothingSelected(AdapterView<?> parentView) {
                 }
             });*/
-            // Obtener el cliente seleccionado
-            if(this.idCli == -1)
-            {
-                this.idCli = 1;
-            }
-            for (int i = 0; i < duenoList.size(); i++) {
-                if (duenoList.get(i).getIdCliente() == idCliente) {
-                    spinnerClientes.setSelection(i);
-                    break;
+                // Obtener el cliente seleccionado
+                if (this.idCli == -1) {
+                    this.idCli = 1;
+                }
+                for (int i = 0; i < duenoList.size(); i++) {
+                    if (duenoList.get(i).getIdCliente() == idCliente) {
+                        spinnerClientes.setSelection(i);
+                        break;
+                    }
                 }
             }
         }
-
-    }
 }

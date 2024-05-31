@@ -185,7 +185,7 @@ public class VerCitaVeterinario extends AppCompatActivity {
         @Override
         protected Void doInBackground(Cita... consulta)
         {
-            String url = "http://192.168.0.14/ControlPaw/borrarConsulta.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.1.143/ControlPaw/borrarConsulta.php"; // Sustituye por tu IPv4
 
             try
             {
@@ -253,7 +253,7 @@ public class VerCitaVeterinario extends AppCompatActivity {
         protected String doInBackground(Cita... consultas)
         {
             String mensaje = "";
-            String url = "http://192.168.0.14/ControlPaw/actualizarConsulta.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.1.143/ControlPaw/actualizarConsulta.php"; // Sustituye por tu IPv4
 
             try
             {

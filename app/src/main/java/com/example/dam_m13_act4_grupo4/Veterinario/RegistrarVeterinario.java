@@ -73,7 +73,7 @@ public class RegistrarVeterinario extends AppCompatActivity {
                     //region Enviar datos al PHP
                     String[] field = {"tipo", "usuario", "pass", "DNI", "nombre", "telefono", "direccion"};
                     String[] data = {"2", email, hashPass, dni, nombre, telefono, direccion};
-                    PutData putData = new PutData("http://192.168.0.14/ControlPaw/registrarCliente.php", "POST", field, data);
+                    PutData putData = new PutData("http://192.168.1.143/ControlPaw/registrarCliente.php", "POST", field, data);
                     //endregion
 
                     if (putData.startPut())

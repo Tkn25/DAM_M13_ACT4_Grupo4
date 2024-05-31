@@ -80,7 +80,7 @@ public class InsertarConsejoVeterinario extends AppCompatActivity {
 
             try {
                 //Escribimos la dirección del .php
-                String url = "http://192.168.0.14/controlpaw/insertarConsejo.php"; //Sustituye por tu IPv4
+                String url = "http://192.168.1.143/controlpaw/insertarConsejo.php"; //Sustituye por tu IPv4
 
                 //Guardamos los parametros
                 String parametros ="&titulo=" + consejo[0].getTitulo() +
