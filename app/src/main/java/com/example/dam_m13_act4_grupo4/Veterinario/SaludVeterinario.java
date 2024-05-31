@@ -130,7 +130,7 @@ public class SaludVeterinario extends AppCompatActivity
 
         @Override
         protected ArrayList<Mascota> doInBackground(String... dueno) {
-            String url = "http://192.168.0.14/controlpaw/saludMascotasVeterinario.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.1.143/controlpaw/saludMascotasVeterinario.php"; // Sustituye por tu IPv4
 
             try
             {
@@ -226,7 +226,7 @@ public class SaludVeterinario extends AppCompatActivity
         @Override
         protected ArrayList<Tratamiento> doInBackground(Void... Void)
         {
-            String url = "http://192.168.0.14/controlpaw/tratamientosVeterinario.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.1.143/controlpaw/tratamientosVeterinario.php"; // Sustituye por tu IPv4
 
             try
             {

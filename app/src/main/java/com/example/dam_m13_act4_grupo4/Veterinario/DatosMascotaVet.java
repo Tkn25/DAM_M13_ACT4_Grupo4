@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -236,7 +235,7 @@ public class DatosMascotaVet extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... voids) {
             String resultado = "";
-            String url = "http://192.168.1.179/ControlPaw/"+clave+".php";
+            String url = "http://192.168.1.143/ControlPaw/"+clave+".php";
 
             try {
 
@@ -312,7 +311,7 @@ public class DatosMascotaVet extends AppCompatActivity {
     }
         @Override
         protected ArrayList<Dueno> doInBackground(Void... voids) {
-            String url = "http://192.168.1.179/ControlPaw/Clientes.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.1.143/ControlPaw/Clientes.php"; //Sustituye por tu IPv4
 
             try {
                 URL direccion = new URL(url);

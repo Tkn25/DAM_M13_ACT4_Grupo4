@@ -29,14 +29,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.18" />
+
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="200dp"
-        android:layout_height="14dp"
-        android:fontFamily="@font/lemonmilklight"
+        android:layout_width="212dp"
+        android:layout_height="31dp"
+        android:fontFamily="@font/lemonmilk"
         android:gravity="center"
         android:text="CLIENTES"
-        android:textSize="10dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline34"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

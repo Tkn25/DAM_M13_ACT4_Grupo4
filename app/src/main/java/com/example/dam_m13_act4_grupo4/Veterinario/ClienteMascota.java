@@ -23,23 +23,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dam_m13_act4_grupo4.Cliente.PrincipalCliente;
 import com.example.dam_m13_act4_grupo4.POJO.Dueno;
+import com.example.dam_m13_act4_grupo4.POJO.Global;
 import com.example.dam_m13_act4_grupo4.R;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class ClienteMascota extends AppCompatActivity {
     private RecyclerView recycler;
@@ -73,18 +70,7 @@ public class ClienteMascota extends AppCompatActivity {
 
         new ObtenerClientesTask().execute();
     }
-    public static Document convertirStringToXMLDocument(String xmlString) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        try {
-            builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
-            return doc;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
     // Creamos la conexion con la lista
     private class AdaptadorMain extends RecyclerView.Adapter<AdaptadorMain.ViewHolder> {
         private final ArrayList<Dueno> duenos;
@@ -145,7 +131,7 @@ public class ClienteMascota extends AppCompatActivity {
         @Override
         protected ArrayList<Dueno> doInBackground(Void... voids) {
             //Ponemos la dirección del .php
-            String url = "http://192.168.1.179/ControlPaw/visualizarCliente.php"; //Sustituye por tu IPv4
+            String url = "http://192.168.1.143/ControlPaw/visualizarCliente.php"; //Sustituye por tu IPv4
 
             try {
                 //Creamos la conexión
@@ -164,7 +150,7 @@ public class ClienteMascota extends AppCompatActivity {
                     respuesta.append(linea);
                 }
                 //Convertimos los datos recibidos en un Document
-                Document document = convertirStringToXMLDocument(respuesta.toString());
+                Document document = Global.convertirStringToXMLDocument(respuesta.toString());
                 //Obtenemos los elementos de cada mascota
                 NodeList listaMascotas = document.getElementsByTagName("cliente");
                 //Con este bucle conseguimos los datos de cada cliente

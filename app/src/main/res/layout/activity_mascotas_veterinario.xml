@@ -60,12 +60,12 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="200dp"
-        android:layout_height="14dp"
-        android:fontFamily="@font/lemonmilklight"
+        android:layout_width="214dp"
+        android:layout_height="31dp"
+        android:fontFamily="@font/lemonmilk"
         android:gravity="center"
-        android:text="MASCOTAS VETERINARIO"
-        android:textSize="10dp"
+        android:text="MASCOTAS"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

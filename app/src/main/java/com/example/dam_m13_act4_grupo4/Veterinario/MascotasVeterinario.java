@@ -27,6 +27,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dam_m13_act4_grupo4.POJO.Global;
 import com.example.dam_m13_act4_grupo4.POJO.Mascota;
 import com.example.dam_m13_act4_grupo4.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,20 +35,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MascotasVeterinario extends AppCompatActivity {
     // Declaramos variables globales.
@@ -141,26 +138,13 @@ public class MascotasVeterinario extends AppCompatActivity {
         });
     }
 
-    public static Document convertirStringToXMLDocument(String xmlString) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        try {
-            builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
-            return doc;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     //Clase para la obtencion de datos de la mascota.
     private class ObtenerMascotasTask extends AsyncTask<Void, Void, ArrayList<Mascota>> {
         ArrayList<Mascota> mascotasList = new ArrayList<>();
 
         @Override
         protected ArrayList<Mascota> doInBackground(Void... voids) {
-            String url = "http://192.168.1.179/ControlPaw/mascotasVeterinario.php";
+            String url = "http://192.168.1.143/ControlPaw/mascotasVeterinario.php";
             //Conexion a php
             try {
                 URL direccion = new URL(url);
@@ -178,7 +162,7 @@ public class MascotasVeterinario extends AppCompatActivity {
                     respuesta.append(linea);
                 }
 
-                Document document = convertirStringToXMLDocument(respuesta.toString());
+                Document document = Global.convertirStringToXMLDocument(respuesta.toString());
 
                 NodeList listaMascotas = document.getElementsByTagName("mascota");
                 //Mapear informacion

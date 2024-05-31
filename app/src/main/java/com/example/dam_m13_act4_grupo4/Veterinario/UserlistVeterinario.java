@@ -60,7 +60,7 @@ public class UserlistVeterinario extends AppCompatActivity
         adapter = new ClienteAdapter(clienteList);
         recyclerView.setAdapter(adapter);
 
-        new FetchDataTask().execute("http://192.168.1.179/controlpaw/verUserlist.php");
+        new FetchDataTask().execute("http://192.168.1.143/controlpaw/verUserlist.php");
 
         //region Listener del botón para volver al menú principal de veterinario
         volver.setOnClickListener(new View.OnClickListener()

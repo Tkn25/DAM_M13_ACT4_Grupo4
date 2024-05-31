@@ -108,7 +108,7 @@ public class CitasVeterinario extends AppCompatActivity {
         @Override
         protected ArrayList<Mascota> doInBackground(String... dueno)
         {
-            String url = "http://192.168.0.14/controlpaw/citasMascotaVeterinario.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.1.143/controlpaw/citasMascotaVeterinario.php"; // Sustituye por tu IPv4
 
             try
             {
@@ -212,7 +212,7 @@ public class CitasVeterinario extends AppCompatActivity {
         @Override
         protected ArrayList<Cita> doInBackground(Void... Void)
         {
-            String url = "http://192.168.0.14/controlpaw/citasVeterinario.php"; // Sustituye por tu IPv4
+            String url = "http://192.168.1.143/controlpaw/citasVeterinario.php"; // Sustituye por tu IPv4
 
             try
             {
